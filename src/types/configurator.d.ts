@@ -1,11 +1,10 @@
+// src/types/configurator.ts
+
+// --- LOCALIZATION ---
+// We use simple string keys (e.g. "model.e3.label") for translation
 export type Locale = "en" | "sk";
 
-export interface LocalizedString {
-  en: string;
-  sk: string;
-}
-
-// --- CURRENCY & PRICING ---
+// --- CURRENCY ---
 export type CurrencyCode = "EUR" | "USD" | "CZK";
 
 export interface Currency {
@@ -15,26 +14,27 @@ export interface Currency {
   rate: number; // Exchange rate relative to Base Currency (EUR)
 }
 
-// --- 3D & ASSETS ---
+// --- 3D ASSETS & CAMERAS ---
 export interface CameraView {
   position: [number, number, number];
   target: [number, number, number];
 }
 
-// --- CONFIGURATION OBJECTS ---
+// --- DATA MODELS ---
+
 export interface Model {
   id: string;
-  label: string;
-  description: LocalizedString;
+  label: string; // Translation Key
+  description: string; // Translation Key
   basePrice: number;
-  file: string; // Path to GLB in /public
+  file: string; // Path to GLB
   dimensions: [number, number, number];
-  featureIds: string[]; // List of features available for this model
+  featureIds: string[];
 }
 
 export interface Feature {
   id: string;
-  label: LocalizedString;
+  label: string; // Translation Key
   type: "color" | "toggle" | "select";
   required?: boolean;
   optionIds: string[];
@@ -42,18 +42,18 @@ export interface Feature {
 
 export interface Option {
   id: string;
-  label: LocalizedString;
+  label: string; // Translation Key
   price: number;
-  value?: string; // Hex color code or texture path
-  rule?: Rule; // What happens to the 3D scene when selected?
-  incompatibleWith?: string[]; // IDs of options that cannot coexist
+  value?: string; // Hex color or specific value
+  rule?: Rule; // Logic applied when selected
+  incompatibleWith?: string[]; // Logic for conflicts
 }
 
 // --- RULES ENGINE ---
 export interface Rule {
-  show?: string[]; // Node tags to show
+  show?: string[]; // Node tags to make visible
   hide?: string[]; // Node tags to hide
-  setMaterialColor?: Record<string, string>; // { "MaterialName": "#ff0000" }
+  setMaterialColor?: Record<string, string>; // { "MaterialName": "#hex" }
   materialVariants?: Record<string, string>; // { "MaterialName": "VariantName" }
   transform?: {
     node: string;
@@ -62,3 +62,12 @@ export interface Rule {
     scale?: [number, number, number];
   };
 }
+
+// --- UI STEPS ---
+export interface Step {
+  id: string;
+  label: string; // Translation Key (e.g., "step.exterior")
+  featureIds: string[]; // IDs of features to display in Sidebar
+  cameraView: string; // Key matches keys in src/data/cameras.ts
+}
+
