@@ -10,8 +10,8 @@ export const CAMERAS: Record<string, CameraView> = {
     target: [0, 1.5, 0],
   },
   interior: {
-    position: [1.5, 1.6, 0.5],
-    target: [4, 1.5, 0],
+    position: [0.0, 14.35, 0.0],
+    target: [0.0, 1.5, 0.0],
   },
   orbit: {
     position: [8, 8, 8],

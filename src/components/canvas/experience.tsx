@@ -42,17 +42,6 @@ export default function Experience() {
           far={4}
           color="#000000"
         />
-
-        {/* Post Processing */}
-        <EffectComposer disableNormalPass>
-          <Bloom
-            luminanceThreshold={1.2}
-            mipmapBlur
-            intensity={1.0}
-            radius={0.5}
-          />
-          <Vignette eskil={false} offset={0.1} darkness={1.0} />
-        </EffectComposer>
       </Canvas>
     </div>
   );
