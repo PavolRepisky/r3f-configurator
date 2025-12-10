@@ -10,7 +10,6 @@ export function ProgressBar() {
   const { t } = useTranslation();
 
   return (
-    // Increased container gap slightly to prevent accidental mis-clicks between steps
     <div className="flex gap-2 mb-4 h-4 items-center select-none">
       {STEPS.map((step, idx) => {
         const isActive = idx === currentStepIndex;
@@ -21,10 +20,9 @@ export function ProgressBar() {
             type="button"
             key={step.id}
             onClick={() => setStep(idx)}
-            // Added 'group' to handle hover states cleanly
             className={cn(
               "relative flex-1 skew-x-[-20deg] transition-all duration-300 outline-none group",
-              "h-1.5 hover:h-2", // Visual Height logic
+              "h-1.5 hover:h-2",
               isActive
                 ? "bg-orange-500"
                 : isCompleted
@@ -33,8 +31,8 @@ export function ProgressBar() {
             )}
             title={t(step.label)}
           >
-            {/* --- INVISIBLE HIT AREA --- */}
-            {/* Extends click target 12px up and down without changing visuals */}
+
+            {/* Extends click target 12px up and down without changing visuals  */}
             <span className="absolute -top-3 -bottom-3 left-0 right-0 bg-transparent z-20 cursor-pointer" />
 
             {/* Active Glow Effect */}

@@ -15,8 +15,8 @@ import { useEffect, useState } from "react";
 import { CurrencySwitcher } from "@/components/currency-switcher";
 import { Footer } from "@/components/footer";
 import { LanguageSwitcher } from "@/components/language-switcher";
-import { ModelGraphic } from "@/components/model-graphic";
-import { ProgressBar } from "@/components/progress-bar"; // <--- Imported here
+import { ModelPreview } from "@/components/model-preview";
+import { ProgressBar } from "@/components/progress-bar";
 
 // UI Components
 import { Badge } from "@/components/ui/badge";
@@ -134,10 +134,9 @@ export default function Sidebar() {
           </div>
         </div>
 
-        {/* --- PROGRESS BAR COMPONENT --- */}
+        {/* Progress Bar */}
         <ProgressBar />
 
-        {/* Step Label */}
         <div className="flex items-baseline gap-2">
           <span className="text-zinc-600 font-conthrax text-2xl opacity-20">
             0{currentStepIndex + 1}
@@ -152,71 +151,21 @@ export default function Sidebar() {
       <div className="flex-1 min-h-0 relative z-10">
         <ScrollArea className="h-full w-full">
           <div className="p-5 space-y-6 pb-6">
+            
             {/* --- STEP 1: MODEL SELECTION --- */}
             {currentStep.id === "step_model" && (
               <section className="space-y-4 animate-in fade-in slide-in-from-right-4 duration-500">
                 <div className="grid grid-cols-1 gap-3">
-                  {allModels.map((model) => {
-                    const isActive = currentModelId === model.id;
-                    return (
-                      <button
-                        type="button"
-                        key={model.id}
-                        onClick={() => setModel(model.id)}
-                        className={cn(
-                          "relative w-full text-left transition-all duration-300 border p-0 group overflow-hidden",
-                          isActive
-                            ? "border-orange-500 bg-zinc-900/80"
-                            : "border-zinc-800 bg-black/40 hover:border-zinc-600",
-                        )}
-                      >
-                        {isActive && (
-                          <div className="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-orange-500" />
-                        )}
-                        <div className="p-4 flex gap-4">
-                          <div className="shrink-0 pt-1">
-                            <ModelGraphic
-                              modelId={model.id}
-                              isActive={isActive}
-                            />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <div className="flex justify-between items-start mb-1">
-                              <span
-                                className={cn(
-                                  "font-conthrax text-lg uppercase truncate",
-                                  isActive ? "text-white" : "text-zinc-500",
-                                )}
-                              >
-                                {t(model.label)}
-                              </span>
-                              {isActive && (
-                                <Check className="w-4 h-4 text-orange-500" />
-                              )}
-                            </div>
-                            <p className="text-[10px] text-zinc-400 mb-3 line-clamp-2">
-                              {t(model.description)}
-                            </p>
-                            <div className="flex justify-between items-end border-t border-dashed border-white/10 pt-2">
-                              <span className="text-[9px] font-mono text-zinc-500">
-                                {model.dimensions.join(" x ")} M
-                              </span>
-                              <span
-                                className={cn(
-                                  "text-sm font-conthrax",
-                                  isActive
-                                    ? "text-orange-400"
-                                    : "text-zinc-500",
-                                )}
-                              >
-                                {formatPrice(model.basePrice, currency)}
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      </button>
-                    );
-                  })}
+                  {allModels.map((model) => (
+                    <ModelPreview
+                      key={model.id}
+                      model={model}
+                      isActive={currentModelId === model.id}
+                      currency={currency}
+                      onClick={() => setModel(model.id)}
+                      t={t}
+                    />
+                  ))}
                 </div>
               </section>
             )}
@@ -254,7 +203,7 @@ export default function Sidebar() {
                             "w-full flex items-center justify-between p-3 border transition-all duration-200 group relative overflow-hidden",
                             isSelected
                               ? "bg-zinc-900 border-orange-500/50"
-                              : "bg-black/20 border-zinc-800 hover:border-zinc-600",
+                              : "bg-black/20 border-zinc-800 hover:border-zinc-600"
                           )}
                         >
                           {isSelected && (
@@ -267,7 +216,7 @@ export default function Sidebar() {
                                   "w-5 h-5 border shadow-sm",
                                   isSelected
                                     ? "border-white"
-                                    : "border-zinc-700",
+                                    : "border-zinc-700"
                                 )}
                                 style={{ backgroundColor: option.value }}
                               />
@@ -279,7 +228,7 @@ export default function Sidebar() {
                                   "w-4 h-4 border flex items-center justify-center",
                                   isSelected
                                     ? "bg-white border-white"
-                                    : "border-zinc-600",
+                                    : "border-zinc-600"
                                 )}
                               >
                                 {isSelected && (
@@ -290,7 +239,7 @@ export default function Sidebar() {
                             <span
                               className={cn(
                                 "text-xs font-bold uppercase tracking-wide",
-                                isSelected ? "text-white" : "text-zinc-400",
+                                isSelected ? "text-white" : "text-zinc-400"
                               )}
                             >
                               {t(option.label)}
@@ -302,7 +251,7 @@ export default function Sidebar() {
                                 "text-[10px] font-mono px-1.5 py-0.5 bg-white/5 border border-white/5",
                                 isSelected
                                   ? "text-orange-400 border-orange-500/30"
-                                  : "text-zinc-600",
+                                  : "text-zinc-600"
                               )}
                             >
                               + {formatPrice(option.price, currency)}
@@ -333,7 +282,7 @@ export default function Sidebar() {
                     <span>
                       {formatPrice(
                         getModelDetails(currentModelId)?.basePrice || 0,
-                        currency,
+                        currency
                       )}
                     </span>
                   </div>
@@ -400,7 +349,7 @@ export default function Sidebar() {
               <label
                 className={cn(
                   "text-[9px] font-bold uppercase tracking-wider cursor-pointer",
-                  showVat ? "text-orange-500" : "text-zinc-600",
+                  showVat ? "text-orange-500" : "text-zinc-600"
                 )}
               >
                 {t("ui.vat_label")}
