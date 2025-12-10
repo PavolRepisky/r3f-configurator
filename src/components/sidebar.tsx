@@ -3,7 +3,6 @@
 import {
   ArrowLeft,
   ArrowRight,
-  Box,
   Check,
   Cpu,
   FileDown,
@@ -11,11 +10,14 @@ import {
   Receipt,
 } from "lucide-react";
 import { useEffect, useState } from "react";
+
 // App Components
 import { CurrencySwitcher } from "@/components/currency-switcher";
 import { Footer } from "@/components/footer";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { ModelGraphic } from "@/components/model-graphic";
+import { ProgressBar } from "@/components/progress-bar"; // <--- Imported here
+
 // UI Components
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -52,7 +54,6 @@ export default function Sidebar() {
     toggleSelection,
     nextStep,
     prevStep,
-    setStep,
   } = useConfigurator();
 
   const { t } = useTranslation();
@@ -72,10 +73,8 @@ export default function Sidebar() {
   // --- PDF LOGIC ---
   const handleDownloadPDF = () => {
     setIsGeneratingPdf(true);
-    // 1. Request screenshot from Experience.tsx
     window.dispatchEvent(new Event("request-screenshot"));
 
-    // 2. Safety timeout (reset if something hangs)
     setTimeout(() => {
       setIsGeneratingPdf((prev) => {
         if (prev) console.warn("PDF generation timed out.");
@@ -97,7 +96,7 @@ export default function Sidebar() {
           currency,
           showVat,
           imageDataUrl,
-          t, // Pass translation helper
+          t,
         });
       } else {
         alert("Failed to capture 3D scene.");
@@ -135,34 +134,10 @@ export default function Sidebar() {
           </div>
         </div>
 
-        {/* Progress Bar */}
-        <div className="flex gap-1 mb-4 h-4 items-center">
-          {STEPS.map((step, idx) => {
-            const isActive = idx === currentStepIndex;
-            return (
-              <button
-                type="button"
-                key={step.id}
-                onClick={() => setStep(idx)}
-                className={cn(
-                  "h-1.5 flex-1 skew-x-[-20deg] transition-all duration-300 relative group border-l border-black outline-none",
-                  isActive
-                    ? "bg-orange-500"
-                    : idx < currentStepIndex
-                      ? "bg-white"
-                      : "bg-zinc-800",
-                  "hover:h-2",
-                )}
-                title={t(step.label)}
-              >
-                {isActive && (
-                  <span className="absolute inset-0 bg-orange-400 blur-[3px]" />
-                )}
-              </button>
-            );
-          })}
-        </div>
+        {/* --- PROGRESS BAR COMPONENT --- */}
+        <ProgressBar />
 
+        {/* Step Label */}
         <div className="flex items-baseline gap-2">
           <span className="text-zinc-600 font-conthrax text-2xl opacity-20">
             0{currentStepIndex + 1}
