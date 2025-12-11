@@ -1,20 +1,13 @@
 "use client";
 
-import {
-  ArrowLeft,
-  ArrowRight,
-  Check,
-  Cpu,
-  FileDown,
-  Info,
-  Receipt,
-} from "lucide-react";
+import { ArrowLeft, ArrowRight, FileDown, Info, Receipt } from "lucide-react";
 import { useEffect, useState } from "react";
 
 // App Components
+import { FeatureSelection } from "@/components/feature-selection";
 import { Footer } from "@/components/footer";
-import { ModelPreview } from "@/components/model-preview";
-import { SidebarHeader } from "@/components/sidebar-header"; // <--- Imported here
+import { ModelSelection } from "@/components/model-selection"; // <--- Imported
+import { SidebarHeader } from "@/components/sidebar-header";
 
 // UI Components
 import { Button } from "@/components/ui/button";
@@ -70,10 +63,8 @@ export default function Sidebar() {
   // --- PDF LOGIC ---
   const handleDownloadPDF = () => {
     setIsGeneratingPdf(true);
-    // Dispatch event for canvas to listen
     window.dispatchEvent(new Event("request-screenshot"));
 
-    // Fallback timeout
     setTimeout(() => {
       setIsGeneratingPdf((prev) => {
         if (prev) console.warn("PDF generation timed out.");
@@ -115,124 +106,37 @@ export default function Sidebar() {
 
       <SidebarHeader />
 
-      {/* ================= CONTENT ================= */}
+      {/* --- SCROLLABLE CONTENT --- */}
       <div className="flex-1 min-h-0 relative z-10">
         <ScrollArea className="h-full w-full">
           <div className="p-5 space-y-6 pb-6">
-            {/* --- STEP 1: MODEL SELECTION --- */}
+            {/* STEP 1: MODEL SELECTION */}
             {currentStep.id === "step_model" && (
-              <section className="space-y-4 animate-in fade-in slide-in-from-right-4 duration-500">
-                <div className="grid grid-cols-1 gap-3">
-                  {allModels.map((model) => (
-                    <ModelPreview
-                      key={model.id}
-                      model={model}
-                      isActive={currentModelId === model.id}
-                      currency={currency}
-                      onClick={() => setModel(model.id)}
-                      t={t}
-                    />
-                  ))}
-                </div>
-              </section>
+              <ModelSelection
+                models={allModels}
+                currentModelId={currentModelId}
+                currency={currency}
+                onSelect={setModel}
+                t={t}
+              />
             )}
 
-            {/* --- MIDDLE STEPS: FEATURES --- */}
-            {currentStep.featureIds.map((featureId, index) => {
-              const feature = FEATURES[featureId];
-              if (!feature) return null;
-              const options = feature.optionIds
-                .map((id) => OPTIONS[id])
-                .filter(Boolean);
+            {/* MIDDLE STEPS: FEATURES */}
+            {currentStep.featureIds.map((featureId, index) => (
+              <FeatureSelection
+                key={featureId}
+                featureId={featureId}
+                index={index}
+                selections={selections}
+                currency={currency}
+                onToggle={toggleSelection}
+                t={t}
+              />
+            ))}
 
-              return (
-                <section
-                  key={feature.id}
-                  className="animate-in fade-in slide-in-from-bottom-2 duration-500"
-                  style={{ animationDelay: `${index * 100}ms` }}
-                >
-                  <div className="flex items-center gap-3 mb-3">
-                    <Cpu className="w-3 h-3 text-orange-500" />
-                    <h3 className="text-xs font-conthrax uppercase tracking-wider text-zinc-400">
-                      {t(feature.label)}
-                    </h3>
-                    <div className="h-px flex-1 bg-zinc-800" />
-                  </div>
-                  <div className="space-y-2">
-                    {options.map((option) => {
-                      const isSelected = selections[feature.id] === option.id;
-                      return (
-                        <button
-                          type="button"
-                          key={option.id}
-                          onClick={() => toggleSelection(feature.id, option.id)}
-                          className={cn(
-                            "w-full flex items-center justify-between p-3 border transition-all duration-200 group relative overflow-hidden",
-                            isSelected
-                              ? "bg-zinc-900 border-orange-500/50"
-                              : "bg-black/20 border-zinc-800 hover:border-zinc-600",
-                          )}
-                        >
-                          {isSelected && (
-                            <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-orange-500" />
-                          )}
-                          <div className="flex items-center gap-3 pl-1">
-                            {feature.type === "color" && option.value && (
-                              <div
-                                className={cn(
-                                  "w-5 h-5 border shadow-sm",
-                                  isSelected
-                                    ? "border-white"
-                                    : "border-zinc-700",
-                                )}
-                                style={{ backgroundColor: option.value }}
-                              />
-                            )}
-                            {(feature.type === "toggle" ||
-                              feature.type === "select") && (
-                              <div
-                                className={cn(
-                                  "w-4 h-4 border flex items-center justify-center",
-                                  isSelected
-                                    ? "bg-white border-white"
-                                    : "border-zinc-600",
-                                )}
-                              >
-                                {isSelected && (
-                                  <Check className="w-3 h-3 text-black stroke-3" />
-                                )}
-                              </div>
-                            )}
-                            <span
-                              className={cn(
-                                "text-xs font-bold uppercase tracking-wide",
-                                isSelected ? "text-white" : "text-zinc-400",
-                              )}
-                            >
-                              {t(option.label)}
-                            </span>
-                          </div>
-                          {option.price > 0 && (
-                            <span
-                              className={cn(
-                                "text-[10px] font-mono px-1.5 py-0.5 bg-white/5 border border-white/5",
-                                isSelected
-                                  ? "text-orange-400 border-orange-500/30"
-                                  : "text-zinc-600",
-                              )}
-                            >
-                              + {formatPrice(option.price, currency)}
-                            </span>
-                          )}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </section>
-              );
-            })}
-
-            {/* --- FINAL STEP: SUMMARY --- */}
+            {/* STEP 4: SUMMARY */}
+            {/* You could also extract this into <QuoteSummary /> if you like, 
+                but it is the last unique block remaining here. */}
             {currentStep.id === "step_summary" && (
               <section className="space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
                 <div className="flex items-center gap-2 mb-4 bg-orange-500/10 p-3 border border-orange-500/20 rounded-sm">
@@ -273,7 +177,7 @@ export default function Sidebar() {
                   })}
                 </div>
 
-                {/* Total Block */}
+                {/* Total */}
                 <div className="bg-zinc-900/50 p-4 border border-zinc-800 mt-6 space-y-2">
                   <div className="flex justify-between text-xs text-zinc-400">
                     <span>{t("ui.subtotal")}</span>
@@ -305,7 +209,7 @@ export default function Sidebar() {
         </ScrollArea>
       </div>
 
-      {/* ================= FIXED FOOTER ================= */}
+      {/* --- FOOTER ACTIONS --- */}
       <div className="relative z-20 shrink-0 p-5 border-t border-white/10 bg-[#050505]">
         <div className="flex flex-col mb-6">
           <div className="flex justify-between items-center mb-1">
