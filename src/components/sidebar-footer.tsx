@@ -71,7 +71,7 @@ export function SidebarFooter({
                 </TooltipTrigger>
                 <TooltipContent
                   side="top"
-                  className="max-w-[200px] bg-zinc-900 border-zinc-800 text-zinc-300 text-[10px]"
+                  className="max-w-[200px] bg-zinc-900 border-zinc-800 text-zinc-300 text-xs"
                 >
                   {t("ui.vat_tooltip")}
                 </TooltipContent>
@@ -92,7 +92,7 @@ export function SidebarFooter({
           variant="outline"
           onClick={onPrev}
           disabled={isFirstStep}
-          className="flex-1 h-10 border-zinc-800 bg-transparent hover:bg-white/5 text-zinc-400 uppercase text-[10px] font-bold rounded-none"
+          className="flex-1 h-10 border-zinc-800 bg-transparent hover:bg-white/5 text-zinc-400 hover:text-white uppercase text-[10px] font-bold rounded-none"
         >
           <ArrowLeft className="w-3 h-3 mr-2" /> {t("ui.back")}
         </Button>
