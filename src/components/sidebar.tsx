@@ -12,14 +12,11 @@ import {
 import { useEffect, useState } from "react";
 
 // App Components
-import { CurrencySwitcher } from "@/components/currency-switcher";
 import { Footer } from "@/components/footer";
-import { LanguageSwitcher } from "@/components/language-switcher";
 import { ModelPreview } from "@/components/model-preview";
-import { ProgressBar } from "@/components/progress-bar";
+import { SidebarHeader } from "@/components/sidebar-header"; // <--- Imported here
 
 // UI Components
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Switch } from "@/components/ui/switch";
@@ -73,8 +70,10 @@ export default function Sidebar() {
   // --- PDF LOGIC ---
   const handleDownloadPDF = () => {
     setIsGeneratingPdf(true);
+    // Dispatch event for canvas to listen
     window.dispatchEvent(new Event("request-screenshot"));
 
+    // Fallback timeout
     setTimeout(() => {
       setIsGeneratingPdf((prev) => {
         if (prev) console.warn("PDF generation timed out.");
@@ -114,44 +113,12 @@ export default function Sidebar() {
       {/* Background Pattern */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[24px_24px] pointer-events-none z-0" />
 
-      {/* ================= HEADER ================= */}
-      <div className="relative z-10 shrink-0 p-5 border-b border-white/10 bg-black/60">
-        <div className="flex justify-between items-start mb-5">
-          <div className="space-y-1">
-            <h1 className="text-2xl font-conthrax tracking-wider uppercase text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]">
-              TERRA<span className="text-orange-500">BOX</span>
-            </h1>
-            <Badge
-              variant="outline"
-              className="border-orange-500/50 text-orange-500 bg-orange-500/10 text-[9px] px-1.5 py-0 rounded-none h-4"
-            >
-              BETA v1.0
-            </Badge>
-          </div>
-          <div className="flex items-center gap-1">
-            <CurrencySwitcher />
-            <LanguageSwitcher />
-          </div>
-        </div>
-
-        {/* Progress Bar */}
-        <ProgressBar />
-
-        <div className="flex items-baseline gap-2">
-          <span className="text-zinc-600 font-conthrax text-2xl opacity-20">
-            0{currentStepIndex + 1}
-          </span>
-          <h2 className="text-sm font-conthrax tracking-wide uppercase text-white">
-            {t(currentStep.label)}
-          </h2>
-        </div>
-      </div>
+      <SidebarHeader />
 
       {/* ================= CONTENT ================= */}
       <div className="flex-1 min-h-0 relative z-10">
         <ScrollArea className="h-full w-full">
           <div className="p-5 space-y-6 pb-6">
-            
             {/* --- STEP 1: MODEL SELECTION --- */}
             {currentStep.id === "step_model" && (
               <section className="space-y-4 animate-in fade-in slide-in-from-right-4 duration-500">
@@ -203,7 +170,7 @@ export default function Sidebar() {
                             "w-full flex items-center justify-between p-3 border transition-all duration-200 group relative overflow-hidden",
                             isSelected
                               ? "bg-zinc-900 border-orange-500/50"
-                              : "bg-black/20 border-zinc-800 hover:border-zinc-600"
+                              : "bg-black/20 border-zinc-800 hover:border-zinc-600",
                           )}
                         >
                           {isSelected && (
@@ -216,7 +183,7 @@ export default function Sidebar() {
                                   "w-5 h-5 border shadow-sm",
                                   isSelected
                                     ? "border-white"
-                                    : "border-zinc-700"
+                                    : "border-zinc-700",
                                 )}
                                 style={{ backgroundColor: option.value }}
                               />
@@ -228,7 +195,7 @@ export default function Sidebar() {
                                   "w-4 h-4 border flex items-center justify-center",
                                   isSelected
                                     ? "bg-white border-white"
-                                    : "border-zinc-600"
+                                    : "border-zinc-600",
                                 )}
                               >
                                 {isSelected && (
@@ -239,7 +206,7 @@ export default function Sidebar() {
                             <span
                               className={cn(
                                 "text-xs font-bold uppercase tracking-wide",
-                                isSelected ? "text-white" : "text-zinc-400"
+                                isSelected ? "text-white" : "text-zinc-400",
                               )}
                             >
                               {t(option.label)}
@@ -251,7 +218,7 @@ export default function Sidebar() {
                                 "text-[10px] font-mono px-1.5 py-0.5 bg-white/5 border border-white/5",
                                 isSelected
                                   ? "text-orange-400 border-orange-500/30"
-                                  : "text-zinc-600"
+                                  : "text-zinc-600",
                               )}
                             >
                               + {formatPrice(option.price, currency)}
@@ -282,7 +249,7 @@ export default function Sidebar() {
                     <span>
                       {formatPrice(
                         getModelDetails(currentModelId)?.basePrice || 0,
-                        currency
+                        currency,
                       )}
                     </span>
                   </div>
@@ -349,7 +316,7 @@ export default function Sidebar() {
               <label
                 className={cn(
                   "text-[9px] font-bold uppercase tracking-wider cursor-pointer",
-                  showVat ? "text-orange-500" : "text-zinc-600"
+                  showVat ? "text-orange-500" : "text-zinc-600",
                 )}
               >
                 {t("ui.vat_label")}
