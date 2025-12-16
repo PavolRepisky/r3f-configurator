@@ -1,0 +1,28 @@
+{
+  "id": "e3",
+  "label": "model.e3.label",
+  "description": "model.e3.desc",
+  "basePrice": 14000,
+  "dimensions": [4, 2.5, 3],
+  "featureIds": [
+    "feat_exterior_finish",
+    "feat_exterior_tech",
+    "feat_interior_layout",
+    "feat_interior_flooring",
+    "feat_interior_kitchen"
+  ],
+  "asset": {
+    "file": "/models/cube.glb",
+    "nodes": {
+      "Wall_Bedroom_Partition": ["Wall_Int_01", "Door_Frame_Int"],
+      "Roof_Solar_Panels": ["Solar_Group", "Cable_Ducts"],
+      "Ext_AC_Unit": ["AC_Box_Mesh"],
+      "Kitchen_Module_Base": ["Kitchen_Cabinet_Lower", "Sink_Mesh"],
+      "Kitchen_Island": ["Island_Mesh", "Stools_Group"]
+    },
+    "materials": {
+      "Mat_Exterior_Cladding": "Wood_Siding_01",
+      "Mat_Floor_Interior": "Floor_Concrete"
+    }
+  }
+}

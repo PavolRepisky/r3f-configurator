@@ -27,9 +27,27 @@ export interface Model {
   label: string; // Translation Key
   description: string; // Translation Key
   basePrice: number;
-  file: string; // Path to GLB
-  dimensions: [number, number, number];
+  dimensions: number[];
   featureIds: string[];
+
+  // New: Asset definition for Blueprints
+  asset: {
+    file: string; // Path to GLB (e.g. "/models/house.glb")
+
+    // Mapping: Logical Tag -> Actual Mesh Names in GLB
+    // e.g. { "Wall_Bedroom": ["Cube.001", "Mesh_Wall"] }
+    nodes?: Record<string, string[]>;
+
+    // Mapping: Logical Material -> Actual Material Name in GLB
+    // e.g. { "Mat_Exterior": "Wood_Pine_02" }
+    materials?: Record<string, string>;
+  };
+
+  // Optional: Model-specific camera overrides
+  camera?: {
+    exterior?: [number, number, number];
+    interior?: [number, number, number];
+  };
 }
 
 export interface Feature {
@@ -70,4 +88,3 @@ export interface Step {
   featureIds: string[]; // IDs of features to display in Sidebar
   cameraView: string; // Key matches keys in src/data/cameras.ts
 }
-

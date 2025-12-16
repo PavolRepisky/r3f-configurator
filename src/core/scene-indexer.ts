@@ -1,42 +1,64 @@
 import { type Material, Mesh, type Object3D } from "three";
+import type { Model } from "@/types/configurator";
 
 export interface SceneIndex {
-  tags: Record<string, Object3D[]>; // Map "Tag" -> [Mesh1, Mesh2]
-  materials: Record<string, Material>; // Map "MatName" -> Material
+  tags: Record<string, Object3D[]>;
+  materials: Record<string, Material>;
 }
 
-export function indexScene(scene: Object3D): SceneIndex {
+export function indexScene(scene: Object3D, blueprint?: Model): SceneIndex {
   const tags: Record<string, Object3D[]> = {};
   const materials: Record<string, Material> = {};
 
+  // 1. Prepare Reverse Lookup Maps for O(1) access
+  // Map "MeshName" -> ["Tag1", "Tag2"]
+  const nodeToTags: Record<string, string[]> = {};
+
+  if (blueprint?.asset.nodes) {
+    Object.entries(blueprint.asset.nodes).forEach(([tag, nodeNames]) => {
+      nodeNames.forEach((nodeName) => {
+        if (!nodeToTags[nodeName]) nodeToTags[nodeName] = [];
+        nodeToTags[nodeName].push(tag);
+      });
+    });
+  }
+
+  // 2. Traverse the Scene
   scene.traverse((obj) => {
-    // 1. Index Materials
+    // --- Index Materials ---
     if (obj instanceof Mesh) {
       const mat = obj.material as Material;
-      if (mat?.name) {
-        materials[mat.name] = mat;
+      // Index by actual name
+      if (mat.name) materials[mat.name] = mat;
+
+      // Index by Logical Blueprint Name (e.g. "Mat_Exterior")
+      if (blueprint?.asset.materials) {
+        Object.entries(blueprint.asset.materials).forEach(
+          ([logicalName, actualName]) => {
+            if (mat.name === actualName) {
+              materials[logicalName] = mat; // Allow lookup by "Mat_Exterior"
+            }
+          },
+        );
       }
     }
 
-    // 2. Index Tags (from userData or name)
-    // We look for userData.tag (Blender Custom Property) OR obj.name
-    const userData = obj.userData as any;
-
-    // Strategy: Check userData.tag first, fallback to parsing the name
+    // --- Index Nodes (Tags) ---
     const tagList: string[] = [];
 
+    // A. Check Blueprint Mapping (Priority)
+    if (nodeToTags[obj.name]) {
+      tagList.push(...nodeToTags[obj.name]);
+    }
+
+    // B. Check Blender Custom Properties (Fallback)
+    const userData = obj.userData as any;
     if (userData?.tag) {
       if (Array.isArray(userData.tag)) tagList.push(...userData.tag);
       else tagList.push(userData.tag);
-    } else {
-      // Fallback: If node is named "Tag_Wall_Bedroom", treat "Wall_Bedroom" as tag
-      if (obj.name.startsWith("Tag_")) {
-        tagList.push(obj.name.replace("Tag_", ""));
-      }
-      // Or just map the exact name
-      tagList.push(obj.name);
     }
 
+    // C. Add to Index
     tagList.forEach((tag) => {
       if (!tags[tag]) tags[tag] = [];
       tags[tag].push(obj);

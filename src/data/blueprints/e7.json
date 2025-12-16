@@ -1,0 +1,24 @@
+{
+  "id": "e7",
+  "label": "model.e7.label",
+  "description": "model.e7.desc",
+  "basePrice": 24900,
+  "dimensions": [7, 3, 3],
+  "featureIds": [
+    "feat_exterior_finish",
+    "feat_exterior_tech",
+    "feat_interior_layout",
+    "feat_interior_flooring",
+    "feat_interior_kitchen"
+  ],
+  "asset": {
+    "file": "/models/cube.glb",
+    "nodes": {
+      "Wall_Bedroom_Partition": ["Bedroom_Divider"],
+      "Roof_Solar_Panels": ["Solar_Array_Large"],
+      "Ext_AC_Unit": ["AC_Unit_V2"],
+      "Kitchen_Module_Base": ["Kitchen_L_Shape"],
+      "Kitchen_Island": ["Island_Large"]
+    }
+  }
+}

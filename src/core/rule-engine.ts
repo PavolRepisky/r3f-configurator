@@ -1,13 +1,9 @@
-import { Mesh, type MeshStandardMaterial, TextureLoader } from "three";
+import type { MeshStandardMaterial } from "three";
 import type { Rule } from "@/types/configurator";
 import type { SceneIndex } from "./scene-indexer";
 
 export function applyRules(index: SceneIndex, rules: Rule[]) {
-  // 1. Reset Visibility (Optional: assumes everything starts visible or handled by defaults)
-  // For this engine, we assume the GLB has default state, and we only modify what's in rules.
-
   rules.forEach((rule) => {
-    // --- VISIBILITY ---
     if (rule.show) {
       rule.show.forEach((tag) => {
         setVisibility(index, tag, true);
@@ -19,9 +15,10 @@ export function applyRules(index: SceneIndex, rules: Rule[]) {
       });
     }
 
-    // --- MATERIAL COLORS ---
     if (rule.setMaterialColor) {
       Object.entries(rule.setMaterialColor).forEach(([matName, color]) => {
+        console.log(matName);
+        console.log(index.materials);
         const mat = index.materials[matName];
         if (mat && "color" in mat) {
           (mat as MeshStandardMaterial).color.set(color);
@@ -29,7 +26,6 @@ export function applyRules(index: SceneIndex, rules: Rule[]) {
       });
     }
 
-    // --- TRANSFORMS (Position/Scale) ---
     if (rule.transform) {
       const nodes = index.tags[rule.transform.node];
       if (nodes) {

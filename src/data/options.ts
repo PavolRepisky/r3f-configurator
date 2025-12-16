@@ -6,20 +6,20 @@ export const OPTIONS: Record<string, Option> = {
   // ==============================================
   opt_ext_white: {
     id: "opt_ext_white",
-    label: "option.exterior.white", // "Matte White"
+    label: "option.exterior.white",
     price: 0,
-    value: "#f3f4f6", // UI Color Swatch
+    value: "#f3f4f6",
     rule: {
-      setMaterialColor: { Mat_Exterior_Cladding: "#ffffff" },
+      setMaterialColor: { Material: "#ffffff" },
     },
   },
   opt_ext_wood: {
     id: "opt_ext_wood",
-    label: "option.exterior.wood", // "Natural Wood"
+    label: "option.exterior.wood",
     price: 1500,
     value: "#a16207",
     rule: {
-      setMaterialColor: { Mat_Exterior_Cladding: "#854d0e" },
+      setMaterialColor: { Material: "#854d0e" },
     },
   },
   opt_ext_metal: {
@@ -28,7 +28,7 @@ export const OPTIONS: Record<string, Option> = {
     price: 850,
     value: "#374151",
     rule: {
-      setMaterialColor: { Mat_Exterior_Cladding: "#1f2937" },
+      setMaterialColor: { Material: "#1f2937" },
     },
   },
 

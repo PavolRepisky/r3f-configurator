@@ -15,7 +15,7 @@ export default function SmartModel() {
   const modelDef = getModelDetails(currentModelId);
 
   // Load the GLB (automatically caches)
-  const { scene } = useGLTF(modelDef?.file || "/models/placeholder.glb");
+  const { scene } = useGLTF(modelDef?.asset.file || "/models/placeholder.glb");
 
   // Index the scene once when the model loads
   const index = useMemo(() => indexScene(scene), [scene]);
