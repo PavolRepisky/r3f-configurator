@@ -4,17 +4,18 @@ import { CameraControls } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useEffect, useRef } from "react";
 import { MathUtils, Vector3 } from "three";
-import { useConfigurator } from "@/store/useConfigurator";
-import { STEPS } from "@/data/steps";
 import { CAMERAS } from "@/data/cameras";
+import { useConfigurator } from "@/store/useConfigurator";
 
 const ENABLE_DEBUG = process.env.NODE_ENV === "development";
 
 export function CameraManager() {
   const controlsRef = useRef<CameraControls>(null);
-  const currentStepIndex = useConfigurator((state) => state.currentStepIndex);
 
-  // --- 1. SEND DEBUG DATA (60 FPS) ---
+  // 👇 LISTENER CHANGED: Watch currentView instead of currentStepIndex
+  const currentView = useConfigurator((state) => state.currentView);
+
+  // --- 1. DEBUG LOGIC (Sends data to UI) ---
   useFrame(() => {
     if (!ENABLE_DEBUG || !controlsRef.current) return;
 
@@ -30,43 +31,44 @@ export function CameraManager() {
     const posStr = `[${fmt(pos.x)}, ${fmt(pos.y)}, ${fmt(pos.z)}]`;
     const targetStr = `[${fmt(target.x)}, ${fmt(target.y)}, ${fmt(target.z)}]`;
 
-    // Format for clipboard (Raw array string)
+    // Format for clipboard
     const rawPos = `[${pos.x.toFixed(2)}, ${pos.y.toFixed(2)}, ${pos.z.toFixed(2)}]`;
     const rawTarget = `[${target.x.toFixed(2)}, ${target.y.toFixed(2)}, ${target.z.toFixed(2)}]`;
 
-    // Dispatch event to UI
     const event = new CustomEvent("camera-debug-update", {
       detail: {
         pos: posStr,
         target: targetStr,
-        raw: { pos: rawPos, target: rawTarget }
-      }
+        raw: { pos: rawPos, target: rawTarget },
+      },
     });
     window.dispatchEvent(event);
   });
 
-  // --- 2. CAMERA TRANSITIONS ---
+  // --- 2. TRANSITION LOGIC ---
   useEffect(() => {
     if (!controlsRef.current) return;
-    const step = STEPS[currentStepIndex];
-    // @ts-ignore
-    const view = CAMERAS[step.cameraView] || CAMERAS.exterior;
+
+    // Look up config directly by View ID
+    const viewConfig = CAMERAS[currentView] || CAMERAS.exterior;
     const controls = controlsRef.current;
 
+    // Normalize rotation to prevent spinning (Shortest path logic)
     const currentAzimuth = controls.azimuthAngle;
     const normalizedAzimuth = currentAzimuth % (2 * Math.PI);
     controls.rotateTo(normalizedAzimuth, controls.polarAngle, false);
 
+    // Execute Move
     controls.setLookAt(
-      view.position[0],
-      view.position[1],
-      view.position[2],
-      view.target[0],
-      view.target[1],
-      view.target[2],
-      true
+      viewConfig.position[0],
+      viewConfig.position[1],
+      viewConfig.position[2],
+      viewConfig.target[0],
+      viewConfig.target[1],
+      viewConfig.target[2],
+      true, // Smooth transition
     );
-  }, [currentStepIndex]);
+  }, [currentView]); // Triggers when Store updates currentView
 
   return (
     <CameraControls

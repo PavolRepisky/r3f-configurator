@@ -1,4 +1,3 @@
-// src/store/useConfigurator.ts
 import { create } from "zustand";
 import { DEFAULT_CURRENCY } from "@/data/currency";
 import { FEATURES } from "@/data/features";
@@ -10,9 +9,14 @@ import type { CurrencyCode, Locale, Rule } from "@/types/configurator";
 const DEFAULT_MODEL_ID = Object.keys(MODELS)[0] || "e3";
 
 export interface ConfigState {
+  // --- STATE ---
   currentModelId: string;
-  isConfiguring: boolean; // <--- NEW
+  isConfiguring: boolean;
   currentStepIndex: number;
+
+  // NEW: Track the active camera view explicitly
+  currentView: string;
+
   selections: Record<string, string>;
   totalPrice: number;
   activeRules: Rule[];
@@ -20,14 +24,18 @@ export interface ConfigState {
   locale: Locale;
   showVat: boolean;
 
-  selectModel: (modelId: string) => void; // <--- NEW
-  resetToLanding: () => void; // <--- NEW
-
+  // --- ACTIONS ---
+  selectModel: (modelId: string) => void;
+  resetToLanding: () => void;
   setModel: (modelId: string) => void;
   toggleSelection: (featureId: string, optionId: string) => void;
   nextStep: () => void;
   prevStep: () => void;
   setStep: (index: number) => void;
+
+  // NEW: Manual View Switcher
+  setView: (view: string) => void;
+
   setCurrency: (code: CurrencyCode) => void;
   setLocale: (locale: Locale) => void;
   toggleVat: () => void;
@@ -35,15 +43,24 @@ export interface ConfigState {
 }
 
 export const useConfigurator = create<ConfigState>((set, get) => ({
+  // --- INITIAL STATE ---
   currentModelId: DEFAULT_MODEL_ID,
-  isConfiguring: false, // Start at Landing Page
+  isConfiguring: false,
   currentStepIndex: 0,
+
+  // Default to the view of the first step (usually "exterior")
+  currentView: STEPS[0]?.cameraView || "exterior",
+
   selections: {},
   totalPrice: 0,
   activeRules: [],
   currency: DEFAULT_CURRENCY,
   locale: "en",
   showVat: true,
+
+  // --- ACTIONS ---
+
+  setView: (view) => set({ currentView: view }),
 
   selectModel: (modelId) => {
     const model = MODELS[modelId];
@@ -52,10 +69,12 @@ export const useConfigurator = create<ConfigState>((set, get) => ({
       currentModelId: modelId,
       isConfiguring: true,
       currentStepIndex: 0,
+      currentView: STEPS[0].cameraView, // Reset view on load
       selections: {},
       totalPrice: model.basePrice,
       activeRules: [],
     });
+    // Apply default visibility rules
     get().applyRules();
   },
 
@@ -83,6 +102,7 @@ export const useConfigurator = create<ConfigState>((set, get) => ({
         if (!feature.required) delete newSelections[featureId];
       } else {
         newSelections[featureId] = optionId;
+        // Conflict logic
         const optionDef = OPTIONS[optionId];
         if (optionDef?.incompatibleWith) {
           optionDef.incompatibleWith.forEach((inc) => {
@@ -103,15 +123,31 @@ export const useConfigurator = create<ConfigState>((set, get) => ({
     get().applyRules();
   },
 
+  // Update navigation to sync view with step
   nextStep: () =>
-    set((state) => ({
-      currentStepIndex: Math.min(state.currentStepIndex + 1, STEPS.length - 1),
-    })),
+    set((state) => {
+      const nextIndex = Math.min(state.currentStepIndex + 1, STEPS.length - 1);
+      return {
+        currentStepIndex: nextIndex,
+        currentView: STEPS[nextIndex].cameraView, // Auto-switch view
+      };
+    }),
+
   prevStep: () =>
-    set((state) => ({
-      currentStepIndex: Math.max(state.currentStepIndex - 1, 0),
-    })),
-  setStep: (idx) => set({ currentStepIndex: idx }),
+    set((state) => {
+      const prevIndex = Math.max(state.currentStepIndex - 1, 0);
+      return {
+        currentStepIndex: prevIndex,
+        currentView: STEPS[prevIndex].cameraView, // Auto-switch view
+      };
+    }),
+
+  setStep: (idx) =>
+    set({
+      currentStepIndex: idx,
+      currentView: STEPS[idx].cameraView, // Auto-switch view
+    }),
+
   setCurrency: (code) => set({ currency: code }),
   setLocale: (locale) => set({ locale }),
   toggleVat: () => set((state) => ({ showVat: !state.showVat })),
@@ -119,12 +155,9 @@ export const useConfigurator = create<ConfigState>((set, get) => ({
   applyRules: () => {
     const rules: Rule[] = [];
     const state = get();
-    // Default hidden nodes from model
-    const model = MODELS[state.currentModelId];
-    if (model?.asset.hiddenNodes) {
-      // We can handle defaults in SmartModel, or here if we want strict rule control
-    }
-    // Selection rules
+    // 1. Model Defaults (could be handled here or in SmartModel)
+
+    // 2. Option Rules
     Object.values(state.selections).forEach((optionId) => {
       const option = OPTIONS[optionId];
       if (option?.rule) rules.push(option.rule);
