@@ -19,6 +19,13 @@
       "Ext_AC_Unit": ["AC_Unit_V2"],
       "Kitchen_Module_Base": ["Kitchen_L_Shape"],
       "Kitchen_Island": ["Island_Large"]
-    }
+    },
+    "hiddenNodes": [
+      "Roof_Solar_Panels",
+      "Ext_AC_Unit",
+      "Kitchen_Module_Base",
+      "Kitchen_Island",
+      "Wall_Bedroom_Partition"
+    ]
   }
 }

@@ -20,18 +20,22 @@ export default function SmartModel() {
   // Index the scene once when the model loads
   const index = useMemo(() => indexScene(scene), [scene]);
 
-  // Apply rules whenever selections change
   useEffect(() => {
     if (!index) return;
 
-    // 1. Reset Visibility (Optional safety net)
-    scene.traverse((obj) => {
-      if (obj instanceof Mesh) obj.visible = true;
-    });
+    if (modelDef.asset.hiddenNodes) {
+      modelDef.asset.hiddenNodes.forEach((tag) => {
+        const nodes = index.tags[tag];
+        if (nodes) {
+          nodes.forEach((node) => {
+            node.visible = false;
+          });
+        }
+      });
+    }
 
-    // 2. Apply the active rules from the store
     applyRules(index, activeRules);
-  }, [index, activeRules, scene]);
+  }, [index, activeRules, modelDef]);
 
   return <primitive object={scene} />;
 }

@@ -41,6 +41,7 @@ export interface Model {
     // Mapping: Logical Material -> Actual Material Name in GLB
     // e.g. { "Mat_Exterior": "Wood_Pine_02" }
     materials?: Record<string, string>;
+    hiddenNodes?: string[];
   };
 
   // Optional: Model-specific camera overrides
