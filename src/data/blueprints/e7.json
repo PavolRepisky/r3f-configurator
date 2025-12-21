@@ -2,6 +2,7 @@
   "id": "e7",
   "label": "model.e7.label",
   "description": "model.e7.desc",
+  "image": "placeholder.png",
   "basePrice": 24900,
   "dimensions": [7, 3, 3],
   "featureIds": [
@@ -12,7 +13,7 @@
     "feat_interior_kitchen"
   ],
   "asset": {
-    "file": "/models/cube.glb",
+    "file": "/models/placeholder.glb",
     "nodes": {
       "Wall_Bedroom_Partition": ["Bedroom_Divider"],
       "Roof_Solar_Panels": ["Solar_Array_Large"],

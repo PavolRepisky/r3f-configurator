@@ -2,6 +2,7 @@
   "id": "e3",
   "label": "model.e3.label",
   "description": "model.e3.desc",
+  "image": "placeholder.png",
   "basePrice": 14000,
   "dimensions": [4, 2.5, 3],
   "featureIds": [
@@ -12,13 +13,13 @@
     "feat_interior_kitchen"
   ],
   "asset": {
-    "file": "/models/cube.glb",
+    "file": "/models/placeholder.glb",
     "nodes": {
-      "Wall_Bedroom_Partition": ["Wall_Int_01", "Door_Frame_Int"],
-      "Roof_Solar_Panels": ["Solar_Group", "Cable_Ducts"],
-      "Ext_AC_Unit": ["Ext_AC_Unit"],
-      "Kitchen_Module_Base": ["Kitchen_Cabinet_Lower", "Sink_Mesh"],
-      "Kitchen_Island": ["Island_Mesh", "Stools_Group"]
+      "Wall_Bedroom_Partition": ["Wall_Int_01"],
+      "Roof_Solar_Panels": ["Solar_Group"],
+      "Ext_AC_Unit": ["AC_Box_Mesh"],
+      "Kitchen_Module_Base": ["Kitchen_Cabinet_Lower"],
+      "Kitchen_Island": ["Island_Mesh"]
     },
     "materials": {
       "Mat_Exterior_Cladding": "Wood_Siding_01",

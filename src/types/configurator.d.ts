@@ -1,50 +1,37 @@
-// src/types/configurator.ts
-
-// --- LOCALIZATION ---
-// We use simple string keys (e.g. "model.e3.label") for translation
 export type Locale = "en" | "sk";
-
-// --- CURRENCY ---
 export type CurrencyCode = "EUR" | "USD" | "CZK";
 
 export interface Currency {
   code: CurrencyCode;
   label: string;
   symbol: string;
-  rate: number; // Exchange rate relative to Base Currency (EUR)
+  rate: number;
 }
 
-// --- 3D ASSETS & CAMERAS ---
 export interface CameraView {
   position: [number, number, number];
   target: [number, number, number];
 }
 
-// --- DATA MODELS ---
-
 export interface Model {
   id: string;
-  label: string; // Translation Key
-  description: string; // Translation Key
+  label: string;
+  description: string;
   basePrice: number;
   dimensions: number[];
+
+  // NEW: Image for landing page
+  image?: string;
+
   featureIds: string[];
 
-  // New: Asset definition for Blueprints
   asset: {
-    file: string; // Path to GLB (e.g. "/models/house.glb")
-
-    // Mapping: Logical Tag -> Actual Mesh Names in GLB
-    // e.g. { "Wall_Bedroom": ["Cube.001", "Mesh_Wall"] }
+    file: string;
     nodes?: Record<string, string[]>;
-
-    // Mapping: Logical Material -> Actual Material Name in GLB
-    // e.g. { "Mat_Exterior": "Wood_Pine_02" }
     materials?: Record<string, string>;
     hiddenNodes?: string[];
   };
 
-  // Optional: Model-specific camera overrides
   camera?: {
     exterior?: [number, number, number];
     interior?: [number, number, number];
@@ -53,7 +40,7 @@ export interface Model {
 
 export interface Feature {
   id: string;
-  label: string; // Translation Key
+  label: string;
   type: "color" | "toggle" | "select";
   required?: boolean;
   optionIds: string[];
@@ -61,19 +48,18 @@ export interface Feature {
 
 export interface Option {
   id: string;
-  label: string; // Translation Key
+  label: string;
   price: number;
-  value?: string; // Hex color or specific value
-  rule?: Rule; // Logic applied when selected
-  incompatibleWith?: string[]; // Logic for conflicts
+  value?: string;
+  rule?: Rule;
+  incompatibleWith?: string[];
 }
 
-// --- RULES ENGINE ---
 export interface Rule {
-  show?: string[]; // Node tags to make visible
-  hide?: string[]; // Node tags to hide
-  setMaterialColor?: Record<string, string>; // { "MaterialName": "#hex" }
-  materialVariants?: Record<string, string>; // { "MaterialName": "VariantName" }
+  show?: string[];
+  hide?: string[];
+  setMaterialColor?: Record<string, string>;
+  materialVariants?: Record<string, string>;
   transform?: {
     node: string;
     position?: [number, number, number];
@@ -82,10 +68,9 @@ export interface Rule {
   };
 }
 
-// --- UI STEPS ---
 export interface Step {
   id: string;
-  label: string; // Translation Key (e.g., "step.exterior")
-  featureIds: string[]; // IDs of features to display in Sidebar
-  cameraView: string; // Key matches keys in src/data/cameras.ts
+  label: string;
+  featureIds: string[];
+  cameraView: string;
 }

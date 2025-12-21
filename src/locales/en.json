@@ -42,5 +42,7 @@
   "ui.selected_addons": "Selected Add-ons",
   "ui.no_addons": "No add-ons selected",
   "ui.included": "Included",
-  "ui.summary_title": "Configuration Summary"
+  "ui.summary_title": "Configuration Summary",
+  "ui.change_model": "Switch Model",
+  "ui.select_model": "Select Your Model"
 }

@@ -1,3 +1,4 @@
+// src/store/useConfigurator.ts
 import { create } from "zustand";
 import { DEFAULT_CURRENCY } from "@/data/currency";
 import { FEATURES } from "@/data/features";
@@ -6,71 +7,69 @@ import { OPTIONS } from "@/data/options";
 import { STEPS } from "@/data/steps";
 import type { CurrencyCode, Locale, Rule } from "@/types/configurator";
 
-// --- CONFIG DEFAULTS ---
-// We pick the first model available as the default
 const DEFAULT_MODEL_ID = Object.keys(MODELS)[0] || "e3";
 
-// Calculate initial price immediately
-const initialModel = MODELS[DEFAULT_MODEL_ID];
-const initialBasePrice = initialModel ? initialModel.basePrice : 0;
-
 export interface ConfigState {
-  // --- STATE ---
   currentModelId: string;
+  isConfiguring: boolean; // <--- NEW
   currentStepIndex: number;
-  selections: Record<string, string>; // { featureId: optionId }
-  totalPrice: number; // Always in Base Currency (EUR)
-  activeRules: Rule[]; // Rules derived from selections (for 3D engine)
-
-  // Settings
+  selections: Record<string, string>;
+  totalPrice: number;
+  activeRules: Rule[];
   currency: CurrencyCode;
   locale: Locale;
   showVat: boolean;
 
-  // --- ACTIONS ---
+  selectModel: (modelId: string) => void; // <--- NEW
+  resetToLanding: () => void; // <--- NEW
+
   setModel: (modelId: string) => void;
   toggleSelection: (featureId: string, optionId: string) => void;
-
-  // Navigation
   nextStep: () => void;
   prevStep: () => void;
   setStep: (index: number) => void;
-
-  // Settings Actions
   setCurrency: (code: CurrencyCode) => void;
   setLocale: (locale: Locale) => void;
   toggleVat: () => void;
-
-  // Logic
   applyRules: () => Rule[];
 }
 
 export const useConfigurator = create<ConfigState>((set, get) => ({
-  // --- INITIAL STATE ---
   currentModelId: DEFAULT_MODEL_ID,
+  isConfiguring: false, // Start at Landing Page
   currentStepIndex: 0,
-  selections: {}, // Empty start, or pre-populate defaults if needed
-  totalPrice: initialBasePrice,
+  selections: {},
+  totalPrice: 0,
   activeRules: [],
-
   currency: DEFAULT_CURRENCY,
   locale: "en",
-  showVat: true, // Default to showing VAT
+  showVat: true,
 
-  // --- ACTIONS ---
-
-  setModel: (modelId: string) => {
+  selectModel: (modelId) => {
     const model = MODELS[modelId];
     if (!model) return;
+    set({
+      currentModelId: modelId,
+      isConfiguring: true,
+      currentStepIndex: 0,
+      selections: {},
+      totalPrice: model.basePrice,
+      activeRules: [],
+    });
+    get().applyRules();
+  },
 
+  resetToLanding: () => {
+    set({ isConfiguring: false });
+  },
+
+  setModel: (modelId) => {
+    const model = MODELS[modelId];
+    if (!model) return;
     set((state) => {
-      // When changing models, we usually keep selections if possible,
-      // or you could clear them: selections: {}
       const newPrice = calculateTotal(model.basePrice, state.selections);
       return { currentModelId: modelId, totalPrice: newPrice };
     });
-
-    // Refresh rules after model change
     get().applyRules();
   },
 
@@ -78,47 +77,29 @@ export const useConfigurator = create<ConfigState>((set, get) => ({
     set((state) => {
       const newSelections = { ...state.selections };
       const feature = FEATURES[featureId];
-
       if (!feature) return state;
 
-      // 1. Toggle Logic
-      // If clicking the currently selected option...
       if (newSelections[featureId] === optionId) {
-        // Only allow deselecting if NOT required (e.g., toggles)
-        if (!feature.required) {
-          delete newSelections[featureId];
-        }
+        if (!feature.required) delete newSelections[featureId];
       } else {
-        // Select the new option
         newSelections[featureId] = optionId;
-
-        // 2. Conflict Logic (IncompatibleWith)
-        // Check if this new option hates any existing options
         const optionDef = OPTIONS[optionId];
         if (optionDef?.incompatibleWith) {
-          optionDef.incompatibleWith.forEach((incompatibleOptionId) => {
-            // Check if we have selected this incompatible option anywhere
-            const conflictingFeatureId = Object.keys(newSelections).find(
-              (fid) => newSelections[fid] === incompatibleOptionId,
+          optionDef.incompatibleWith.forEach((inc) => {
+            const conflict = Object.keys(newSelections).find(
+              (k) => newSelections[k] === inc,
             );
-
-            // If found, remove it (deselect)
-            if (conflictingFeatureId) {
-              delete newSelections[conflictingFeatureId];
-            }
+            if (conflict) delete newSelections[conflict];
           });
         }
       }
 
-      // 3. Recalculate Price
       const model = MODELS[state.currentModelId];
       const basePrice = model ? model.basePrice : 0;
       const newPrice = calculateTotal(basePrice, newSelections);
 
       return { selections: newSelections, totalPrice: newPrice };
     });
-
-    // 4. Update 3D Rules
     get().applyRules();
   },
 
@@ -126,56 +107,38 @@ export const useConfigurator = create<ConfigState>((set, get) => ({
     set((state) => ({
       currentStepIndex: Math.min(state.currentStepIndex + 1, STEPS.length - 1),
     })),
-
   prevStep: () =>
     set((state) => ({
       currentStepIndex: Math.max(state.currentStepIndex - 1, 0),
     })),
-
-  setStep: (index: number) =>
-    set({
-      currentStepIndex: Math.min(Math.max(index, 0), STEPS.length - 1),
-    }),
-
+  setStep: (idx) => set({ currentStepIndex: idx }),
   setCurrency: (code) => set({ currency: code }),
-
   setLocale: (locale) => set({ locale }),
-
   toggleVat: () => set((state) => ({ showVat: !state.showVat })),
 
-  /**
-   * Generates a flat list of rules based on current selections.
-   * This is consumed by the Scene Indexer in the 3D Engine.
-   */
   applyRules: () => {
     const rules: Rule[] = [];
     const state = get();
-
-    // 1. Add Model specific rules? (Optional, usually model is base)
-
-    // 2. Add Selection rules
+    // Default hidden nodes from model
+    const model = MODELS[state.currentModelId];
+    if (model?.asset.hiddenNodes) {
+      // We can handle defaults in SmartModel, or here if we want strict rule control
+    }
+    // Selection rules
     Object.values(state.selections).forEach((optionId) => {
       const option = OPTIONS[optionId];
-      if (option?.rule) {
-        rules.push(option.rule);
-      }
+      if (option?.rule) rules.push(option.rule);
     });
-
     set({ activeRules: rules });
     return rules;
   },
 }));
 
-/**
- * Helper: Sum base price + all selected options
- */
 function calculateTotal(basePrice: number, selections: Record<string, string>) {
   let total = basePrice;
-  Object.values(selections).forEach((optionId) => {
-    const option = OPTIONS[optionId];
-    if (option) {
-      total += option.price;
-    }
+  Object.values(selections).forEach((id) => {
+    const opt = OPTIONS[id];
+    if (opt) total += opt.price;
   });
   return total;
 }
