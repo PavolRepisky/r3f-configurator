@@ -22,7 +22,7 @@ export default function Home() {
   }
 
   return (
-    <main className="relative w-full h-screen overflow-hidden bg-black selection:bg-orange-500/30">
+    <main className="relative w-full h-screen overflow-hidden bg-gradient-to-br from-white via-gray-50 to-gray-100 selection:bg-orange-500/20">
       {/* 3D Scene */}
       <div className="absolute inset-0 z-0">
         <Experience />
@@ -34,7 +34,7 @@ export default function Home() {
       <ViewToggle /> {/* <--- Added here */}
       {/* Footer */}
       <div className="absolute bottom-6 left-6 z-10 hidden md:block pointer-events-none select-none animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-500">
-        <div className="pointer-events-auto bg-black/40 backdrop-blur-md border border-white/5 p-4 rounded-sm shadow-2xl">
+        <div className="pointer-events-auto bg-white/90 backdrop-blur-md border border-gray-200/80 p-4 rounded-lg shadow-xl">
           <Footer variant="desktop" />
         </div>
       </div>

@@ -26,17 +26,17 @@ export function ModelPreview({
       type="button"
       onClick={onClick}
       className={cn(
-        "relative w-full text-left transition-all duration-300 border p-0 group overflow-hidden",
+        "relative w-full text-left transition-all duration-300 border p-0 group overflow-hidden rounded-lg",
         isActive
-          ? "border-orange-500 bg-zinc-900/80"
-          : "border-zinc-800 bg-black/40 hover:border-zinc-600"
+          ? "border-orange-500 bg-orange-50 shadow-md"
+          : "border-gray-200 bg-white hover:border-gray-300 hover:shadow-sm"
       )}
     >
       {/* Corner Markers (Active State) */}
       {isActive && (
         <>
-          <div className="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-orange-500" />
-          <div className="absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2 border-orange-500" />
+          <div className="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-orange-500 rounded-tr-lg" />
+          <div className="absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2 border-orange-500 rounded-bl-lg" />
         </>
       )}
 
@@ -52,7 +52,7 @@ export function ModelPreview({
             <span
               className={cn(
                 "font-conthrax text-lg uppercase truncate",
-                isActive ? "text-white" : "text-zinc-500"
+                isActive ? "text-gray-900" : "text-gray-600"
               )}
             >
               {t(model.label)}
@@ -60,18 +60,18 @@ export function ModelPreview({
             {isActive && <Check className="w-4 h-4 text-orange-500" />}
           </div>
 
-          <p className="text-xs text-zinc-400 mb-3">
+          <p className="text-xs text-gray-500 mb-3">
             {t(model.description)}
           </p>
 
-          <div className="flex justify-between items-center border-t border-dashed border-white/10 pt-2">
-            <span className="text-xs font-mono text-zinc-500">
+          <div className="flex justify-between items-center border-t border-dashed border-gray-200 pt-2">
+            <span className="text-xs font-mono text-gray-500">
               {model.dimensions.join(" x ")} M
             </span>
             <span
               className={cn(
                 "text-sm font-conthrax font-medium",
-                isActive ? "text-orange-400" : "text-zinc-500"
+                isActive ? "text-orange-600" : "text-gray-600"
               )}
             >
               {formatPrice(model.basePrice, currency)}

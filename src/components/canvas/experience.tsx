@@ -4,12 +4,24 @@ import { ContactShadows, Environment, Stage } from "@react-three/drei";
 import { Canvas, useThree } from "@react-three/fiber";
 import { Bloom, EffectComposer, Vignette } from "@react-three/postprocessing";
 import { useEffect } from "react";
+import { Color } from "three";
 import { CameraManager } from "./camera-manager";
 import SmartModel from "./smart-model";
 
+// Component to set scene background color
+function SceneBackground() {
+  const { scene } = useThree();
+  
+  useEffect(() => {
+    scene.background = new Color("#ffffff");
+  }, [scene]);
+  
+  return null;
+}
+
 export default function Experience() {
   return (
-    <div className="w-full h-screen bg-neutral-950">
+    <div className="w-full h-screen bg-white">
       <Canvas
         shadows
         dpr={[1, 2]}
@@ -17,6 +29,9 @@ export default function Experience() {
         gl={{ preserveDrawingBuffer: true }}
         camera={{ position: [0, 0, 0], fov: 45 }}
       >
+        {/* Set scene background to white */}
+        <SceneBackground />
+        
         {/* Logic Components */}
         <ScreenshotHandler />
         <CameraManager />
@@ -36,11 +51,11 @@ export default function Experience() {
 
         <ContactShadows
           position={[0, -0.01, 0]}
-          opacity={0.6}
+          opacity={0.3}
           scale={20}
           blur={2.5}
           far={4}
-          color="#000000"
+          color="#888888"
         />
       </Canvas>
     </div>

@@ -35,10 +35,10 @@ export function QuoteSummary({
   return (
     <section className="animate-in fade-in slide-in-from-bottom-4 duration-500">
       {/* Minimalist Card */}
-      <div className="bg-zinc-900/30 border border-white/5 backdrop-blur-sm rounded-sm overflow-hidden">
+      <div className="bg-white border border-gray-200 shadow-sm rounded-lg overflow-hidden">
         {/* --- HEADER --- */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-white/5">
-          <div className="flex items-center gap-2 text-zinc-400">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-gray-200 bg-gray-50">
+          <div className="flex items-center gap-2 text-gray-600">
             <Receipt className="w-4 h-4" />
             {/* Increased to text-sm */}
             <span className="text-sm font-medium tracking-widest uppercase">
@@ -46,8 +46,8 @@ export function QuoteSummary({
             </span>
           </div>
           {/* Ref ID */}
-          <div className="flex items-center gap-1.5 text-xs font-mono text-zinc-600">
-            <Hash className="w-3.5 h-3.5 opacity-40" />
+          <div className="flex items-center gap-1.5 text-xs font-mono text-gray-500">
+            <Hash className="w-3.5 h-3.5 opacity-60" />
             <span>MOD-{currentModelId.toUpperCase()}</span>
           </div>
         </div>
@@ -58,25 +58,25 @@ export function QuoteSummary({
           <div className="py-4 flex justify-between items-center group">
             <div className="flex flex-col gap-0.5">
               {/* Increased to text-base */}
-              <span className="text-base font-medium text-zinc-200">
+              <span className="text-base font-medium text-gray-900">
                 {t("ui.base_price")}
               </span>
               {/* Increased to text-xs */}
-              <span className="text-xs text-zinc-500">Core Configuration</span>
+              <span className="text-xs text-gray-500">Core Configuration</span>
             </div>
             {/* Increased to text-lg */}
-            <span className="font-mono text-lg text-zinc-300 tabular-nums">
+            <span className="font-mono text-lg text-gray-900 tabular-nums">
               {formatPrice(basePrice, currency)}
             </span>
           </div>
 
           {/* Divider */}
-          <div className="h-px bg-white/5 my-1" />
+          <div className="h-px bg-gray-200 my-1" />
 
           {/* 2. Options */}
           <div className="py-3 space-y-3">
             {!hasSelections && (
-              <div className="flex items-center gap-2 text-zinc-600 italic text-sm py-2">
+              <div className="flex items-center gap-2 text-gray-500 italic text-sm py-2">
                 <AlertCircle className="w-4 h-4" />
                 <span>{t("ui.no_addons") || "No add-ons selected"}</span>
               </div>
@@ -93,16 +93,16 @@ export function QuoteSummary({
                   className="flex justify-between items-start text-sm"
                 >
                   <div className="flex flex-col gap-0.5">
-                    <span className="text-zinc-300">{t(option.label)}</span>
+                    <span className="text-gray-900">{t(option.label)}</span>
                     {/* Increased to text-xs */}
-                    <span className="text-xs text-zinc-600">
+                    <span className="text-xs text-gray-500">
                       {t(feature.label)}
                     </span>
                   </div>
                   <span
                     className={cn(
                       "font-mono tabular-nums text-xs pt-0.5",
-                      option.price > 0 ? "text-zinc-400" : "text-zinc-600",
+                      option.price > 0 ? "text-gray-700" : "text-gray-500",
                     )}
                   >
                     {option.price > 0
@@ -116,19 +116,19 @@ export function QuoteSummary({
         </div>
 
         {/* --- TOTALS FOOTER --- */}
-        <div className="bg-white/[0.02] px-5 py-5 border-t border-white/5 space-y-4">
+        <div className="bg-gray-50 px-5 py-5 border-t border-gray-200 space-y-4">
           {/* Subtotals */}
-          <div className="flex flex-col gap-1.5 text-xs text-zinc-500 pb-3 border-b border-dashed border-white/5">
+          <div className="flex flex-col gap-1.5 text-xs text-gray-600 pb-3 border-b border-dashed border-gray-300">
             <div className="flex justify-between">
               <span>{t("ui.subtotal")}</span>
-              <span className="font-mono tabular-nums text-zinc-400">
+              <span className="font-mono tabular-nums text-gray-700">
                 {formatPrice(totalPrice, currency)}
               </span>
             </div>
             {showVat && (
               <div className="flex justify-between">
                 <span>{t("ui.vat_label")}</span>
-                <span className="font-mono tabular-nums text-zinc-400">
+                <span className="font-mono tabular-nums text-gray-700">
                   {formatPrice(vatAmount, currency)}
                 </span>
               </div>
@@ -137,15 +137,15 @@ export function QuoteSummary({
 
           {/* Grand Total */}
           <div className="flex justify-between items-end">
-            <span className="text-sm font-bold uppercase tracking-widest text-zinc-400 mb-1">
+            <span className="text-sm font-bold uppercase tracking-widest text-gray-600 mb-1">
               {t("ui.total")}
             </span>
             <div className="text-right">
               {/* Increased to text-3xl */}
-              <div className="text-3xl font-light font-mono text-white tracking-tight tabular-nums">
+              <div className="text-3xl font-light font-mono text-gray-900 tracking-tight tabular-nums">
                 {formatPrice(showVat ? totalWithVat : totalPrice, currency)}
               </div>
-              <div className="text-[10px] text-orange-500/80 mt-1 uppercase tracking-wide">
+              <div className="text-[10px] text-orange-500 mt-1 uppercase tracking-wide">
                 {showVat ? "Inc. VAT" : "Excl. VAT"}
               </div>
             </div>

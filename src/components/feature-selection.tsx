@@ -37,10 +37,10 @@ export function FeatureSelection({
       {/* Header */}
       <div className="flex items-center gap-3 mb-3">
         <Settings2 className="w-3 h-3 text-orange-500" />
-        <h3 className="text-xs font-conthrax uppercase tracking-wider text-zinc-400">
+        <h3 className="text-xs font-conthrax uppercase tracking-wider text-gray-600">
           {t(feature.label)}
         </h3>
-        <div className="h-px flex-1 bg-zinc-800" />
+        <div className="h-px flex-1 bg-gray-200" />
       </div>
 
       {/* Options List */}

@@ -16,12 +16,12 @@ export function ModelGraphic({
   return (
     <div
       className={cn(
-        "relative w-12 h-12 flex items-center justify-center bg-black/50 border border-white/5",
+        "relative w-12 h-12 flex items-center justify-center bg-gray-100 border border-gray-200 rounded",
         className,
       )}
     >
       {isActive && (
-        <div className="absolute inset-0 bg-orange-500/20 blur-md" />
+        <div className="absolute inset-0 bg-orange-500/20 blur-md rounded" />
       )}
 
       <svg

@@ -80,9 +80,9 @@ export default function Sidebar() {
   }, [currentModelId, selections, totalPrice, currency, showVat, t]);
 
   return (
-    <div className="absolute top-0 right-0 h-dvh w-full md:w-[400px] bg-[#030303]/95 backdrop-blur-3xl border-l border-white/10 flex flex-col shadow-2xl z-20 text-white font-sans overflow-hidden">
+    <div className="absolute top-0 right-0 h-dvh w-full md:w-[400px] bg-white/98 backdrop-blur-3xl border-l border-gray-200/80 flex flex-col shadow-2xl z-20 text-gray-900 font-sans overflow-hidden">
       {/* Background Pattern */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[24px_24px] pointer-events-none z-0" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#e5e7eb08_1px,transparent_1px),linear-gradient(to_bottom,#e5e7eb08_1px,transparent_1px)] bg-size-[24px_24px] pointer-events-none z-0" />
 
       <SidebarHeader />
 
@@ -129,7 +129,7 @@ export default function Sidebar() {
               />
             )}
 
-            <div className="md:hidden pt-8 mt-8 border-t border-white/5">
+            <div className="md:hidden pt-8 mt-8 border-t border-gray-200">
               <Footer variant="mobile" />
             </div>
           </div>

@@ -29,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} ${orbitron.variable} antialiased bg-black overflow-hidden`}
+        className={`${inter.variable} ${orbitron.variable} antialiased bg-white overflow-hidden`}
       >
         {children}
       </body>

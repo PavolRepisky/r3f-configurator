@@ -21,13 +21,13 @@ export function ProgressBar() {
             key={step.id}
             onClick={() => setStep(idx)}
             className={cn(
-              "relative flex-1 skew-x-[-20deg] transition-all duration-300 outline-none group",
+              "relative flex-1 skew-x-[-20deg] transition-all duration-300 outline-none group rounded",
               "h-1.5 hover:h-2",
               isActive
                 ? "bg-orange-500"
                 : isCompleted
-                  ? "bg-white"
-                  : "bg-zinc-800"
+                  ? "bg-gray-900"
+                  : "bg-gray-300"
             )}
             title={t(step.label)}
           >
