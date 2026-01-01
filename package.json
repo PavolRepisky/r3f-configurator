@@ -21,6 +21,7 @@
     "@types/three": "^0.181.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "framer-motion": "^12.23.26",
     "jspdf": "^3.0.4",
     "jspdf-autotable": "^5.0.2",
     "lucide-react": "^0.556.0",
@@ -29,6 +30,7 @@
     "react-dom": "19.2.0",
     "tailwind-merge": "^3.4.0",
     "three": "^0.181.2",
+    "zod": "^4.2.1",
     "zustand": "^5.0.9"
   },
   "devDependencies": {

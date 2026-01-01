@@ -1,0 +1,198 @@
+[
+  {
+    "id": "e3",
+    "label": "model.e3.label",
+    "description": "model.e3.desc",
+    "image": "placeholder.png",
+    "basePrice": 14000,
+    "dimensions": [4, 2.5, 3],
+    "featureIds": [
+      "feat_exterior_finish",
+      "feat_exterior_tech",
+      "feat_interior_layout",
+      "feat_interior_flooring",
+      "feat_interior_kitchen"
+    ],
+    "asset": {
+      "file": "/models/placeholder.glb",
+      "nodes": {
+        "Wall_Bedroom_Partition": ["Wall_Int_01"],
+        "Roof_Solar_Panels": ["Solar_Group"],
+        "Ext_AC_Unit": ["AC_Box_Mesh"],
+        "Kitchen_Module_Base": ["Kitchen_Cabinet_Lower"],
+        "Kitchen_Island": ["Island_Mesh"]
+      },
+      "materials": {
+        "Mat_Exterior_Cladding": "Wood_Siding_01",
+        "Mat_Floor_Interior": "Floor_Concrete"
+      },
+      "hiddenNodes": [
+        "Roof_Solar_Panels",
+        "Ext_AC_Unit",
+        "Kitchen_Module_Base",
+        "Kitchen_Island",
+        "Wall_Bedroom_Partition"
+      ]
+    }
+  },
+  {
+    "id": "e7",
+    "label": "model.e7.label",
+    "description": "model.e7.desc",
+    "image": "placeholder.png",
+    "basePrice": 24900,
+    "dimensions": [7, 3, 3],
+    "featureIds": [
+      "feat_exterior_finish",
+      "feat_exterior_tech",
+      "feat_interior_layout",
+      "feat_interior_flooring",
+      "feat_interior_kitchen"
+    ],
+    "asset": {
+      "file": "/models/placeholder.glb",
+      "nodes": {
+        "Wall_Bedroom_Partition": ["Bedroom_Divider"],
+        "Roof_Solar_Panels": ["Solar_Array_Large"],
+        "Ext_AC_Unit": ["AC_Unit_V2"],
+        "Kitchen_Module_Base": ["Kitchen_L_Shape"],
+        "Kitchen_Island": ["Island_Large"]
+      },
+      "hiddenNodes": [
+        "Roof_Solar_Panels",
+        "Ext_AC_Unit",
+        "Kitchen_Module_Base",
+        "Kitchen_Island",
+        "Wall_Bedroom_Partition"
+      ]
+    }
+  },
+  {
+    "id": "e4",
+    "label": "model.e7.label",
+    "description": "model.e7.desc",
+    "image": "placeholder.png",
+    "basePrice": 24900,
+    "dimensions": [7, 3, 3],
+    "featureIds": [
+      "feat_exterior_finish",
+      "feat_exterior_tech",
+      "feat_interior_layout",
+      "feat_interior_flooring",
+      "feat_interior_kitchen"
+    ],
+    "asset": {
+      "file": "/models/placeholder.glb",
+      "nodes": {
+        "Wall_Bedroom_Partition": ["Bedroom_Divider"],
+        "Roof_Solar_Panels": ["Solar_Array_Large"],
+        "Ext_AC_Unit": ["AC_Unit_V2"],
+        "Kitchen_Module_Base": ["Kitchen_L_Shape"],
+        "Kitchen_Island": ["Island_Large"]
+      },
+      "hiddenNodes": [
+        "Roof_Solar_Panels",
+        "Ext_AC_Unit",
+        "Kitchen_Module_Base",
+        "Kitchen_Island",
+        "Wall_Bedroom_Partition"
+      ]
+    }
+  },
+  {
+    "id": "e5",
+    "label": "model.e7.label",
+    "description": "model.e7.desc",
+    "image": "placeholder.png",
+    "basePrice": 24900,
+    "dimensions": [7, 3, 3],
+    "featureIds": [
+      "feat_exterior_finish",
+      "feat_exterior_tech",
+      "feat_interior_layout",
+      "feat_interior_flooring",
+      "feat_interior_kitchen"
+    ],
+    "asset": {
+      "file": "/models/placeholder.glb",
+      "nodes": {
+        "Wall_Bedroom_Partition": ["Bedroom_Divider"],
+        "Roof_Solar_Panels": ["Solar_Array_Large"],
+        "Ext_AC_Unit": ["AC_Unit_V2"],
+        "Kitchen_Module_Base": ["Kitchen_L_Shape"],
+        "Kitchen_Island": ["Island_Large"]
+      },
+      "hiddenNodes": [
+        "Roof_Solar_Panels",
+        "Ext_AC_Unit",
+        "Kitchen_Module_Base",
+        "Kitchen_Island",
+        "Wall_Bedroom_Partition"
+      ]
+    }
+  },
+  {
+    "id": "e6",
+    "label": "model.e7.label",
+    "description": "model.e7.desc",
+    "image": "placeholder.png",
+    "basePrice": 24900,
+    "dimensions": [7, 3, 3],
+    "featureIds": [
+      "feat_exterior_finish",
+      "feat_exterior_tech",
+      "feat_interior_layout",
+      "feat_interior_flooring",
+      "feat_interior_kitchen"
+    ],
+    "asset": {
+      "file": "/models/placeholder.glb",
+      "nodes": {
+        "Wall_Bedroom_Partition": ["Bedroom_Divider"],
+        "Roof_Solar_Panels": ["Solar_Array_Large"],
+        "Ext_AC_Unit": ["AC_Unit_V2"],
+        "Kitchen_Module_Base": ["Kitchen_L_Shape"],
+        "Kitchen_Island": ["Island_Large"]
+      },
+      "hiddenNodes": [
+        "Roof_Solar_Panels",
+        "Ext_AC_Unit",
+        "Kitchen_Module_Base",
+        "Kitchen_Island",
+        "Wall_Bedroom_Partition"
+      ]
+    }
+  },
+  {
+    "id": "e8",
+    "label": "model.e7.label",
+    "description": "model.e7.desc",
+    "image": "placeholder.png",
+    "basePrice": 24900,
+    "dimensions": [7, 3, 3],
+    "featureIds": [
+      "feat_exterior_finish",
+      "feat_exterior_tech",
+      "feat_interior_layout",
+      "feat_interior_flooring",
+      "feat_interior_kitchen"
+    ],
+    "asset": {
+      "file": "/models/placeholder.glb",
+      "nodes": {
+        "Wall_Bedroom_Partition": ["Bedroom_Divider"],
+        "Roof_Solar_Panels": ["Solar_Array_Large"],
+        "Ext_AC_Unit": ["AC_Unit_V2"],
+        "Kitchen_Module_Base": ["Kitchen_L_Shape"],
+        "Kitchen_Island": ["Island_Large"]
+      },
+      "hiddenNodes": [
+        "Roof_Solar_Panels",
+        "Ext_AC_Unit",
+        "Kitchen_Module_Base",
+        "Kitchen_Island",
+        "Wall_Bedroom_Partition"
+      ]
+    }
+  }
+]
