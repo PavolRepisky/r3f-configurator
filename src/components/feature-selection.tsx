@@ -1,9 +1,8 @@
 "use client";
 
-import { Cpu, Settings, Settings2 } from "lucide-react";
+import { Settings2 } from "lucide-react";
 import { OptionButton } from "@/components/option-button";
-import { FEATURES } from "@/data/features";
-import { OPTIONS } from "@/data/options";
+import { getFeatureDetails, getOptionDetails } from "@/lib/repository";
 import type { CurrencyCode } from "@/types/configurator";
 
 interface FeatureSelectionProps {
@@ -23,11 +22,13 @@ export function FeatureSelection({
   onToggle,
   t,
 }: FeatureSelectionProps) {
-  const feature = FEATURES[featureId];
+  const feature = getFeatureDetails(featureId);
   if (!feature) return null;
 
   // Hydrate options
-  const options = feature.optionIds.map((id) => OPTIONS[id]).filter(Boolean);
+  const options = feature.optionIds
+    .map((id) => getOptionDetails(id))
+    .filter(Boolean);
 
   return (
     <section

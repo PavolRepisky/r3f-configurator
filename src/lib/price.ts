@@ -1,11 +1,11 @@
-import { CURRENCIES } from "@/data/currency";
+import { getCurrencyDetails } from "@/lib/repository";
 import type { CurrencyCode } from "@/types/configurator";
 
 export function formatPrice(
   basePriceInEur: number,
   currencyCode: CurrencyCode,
 ) {
-  const currency = CURRENCIES[currencyCode];
+  const currency = getCurrencyDetails(currencyCode);
   const convertedValue = basePriceInEur * currency.rate;
 
   // Use Intl.NumberFormat for professional formatting

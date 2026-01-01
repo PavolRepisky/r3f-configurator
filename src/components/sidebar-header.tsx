@@ -5,9 +5,8 @@ import { CurrencySwitcher } from "@/components/currency-switcher";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { ProgressBar } from "@/components/progress-bar";
 import { Badge } from "@/components/ui/badge";
-import { STEPS } from "@/data/steps";
 import { useTranslation } from "@/hooks/useTranslation";
-import { getModelDetails } from "@/lib/repository";
+import { getAllSteps, getModelDetails } from "@/lib/repository";
 import { useConfigurator } from "@/store/useConfigurator";
 
 export function SidebarHeader() {
@@ -15,7 +14,7 @@ export function SidebarHeader() {
     useConfigurator();
   const { t } = useTranslation();
 
-  const currentStep = STEPS[currentStepIndex];
+  const currentStep = getAllSteps()[currentStepIndex];
   const model = getModelDetails(currentModelId);
 
   return (

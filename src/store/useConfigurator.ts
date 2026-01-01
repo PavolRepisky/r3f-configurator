@@ -1,12 +1,15 @@
 import { create } from "zustand";
-import { DEFAULT_CURRENCY } from "@/data/currency";
-import { FEATURES } from "@/data/features";
-import { MODELS } from "@/data/models";
-import { OPTIONS } from "@/data/options";
-import { STEPS } from "@/data/steps";
+import {
+  getAllCurrencies,
+  getAllModels,
+  getAllSteps,
+  getFeatureDetails,
+  getModelDetails,
+  getOptionDetails,
+} from "@/lib/repository";
 import type { CurrencyCode, Locale, Rule } from "@/types/configurator";
 
-const DEFAULT_MODEL_ID = Object.keys(MODELS)[0] || "e3";
+const DEFAULT_MODEL_ID = getAllModels()[0]?.id || "e3";
 
 export interface ConfigState {
   // --- STATE ---
@@ -49,12 +52,12 @@ export const useConfigurator = create<ConfigState>((set, get) => ({
   currentStepIndex: 0,
 
   // Default to the view of the first step (usually "exterior")
-  currentView: STEPS[0]?.cameraView || "exterior",
+  currentView: getAllSteps()[0]?.cameraView || "exterior",
 
   selections: {},
   totalPrice: 0,
   activeRules: [],
-  currency: DEFAULT_CURRENCY,
+  currency: getAllCurrencies()[0]?.code || "EUR",
   locale: "en",
   showVat: true,
 
@@ -63,13 +66,13 @@ export const useConfigurator = create<ConfigState>((set, get) => ({
   setView: (view) => set({ currentView: view }),
 
   selectModel: (modelId) => {
-    const model = MODELS[modelId];
+    const model = getModelDetails(modelId);
     if (!model) return;
     set({
       currentModelId: modelId,
       isConfiguring: true,
       currentStepIndex: 0,
-      currentView: STEPS[0].cameraView, // Reset view on load
+      currentView: getAllSteps()[0]?.cameraView || "exterior", // Reset view on load
       selections: {},
       totalPrice: model.basePrice,
       activeRules: [],
@@ -83,7 +86,7 @@ export const useConfigurator = create<ConfigState>((set, get) => ({
   },
 
   setModel: (modelId) => {
-    const model = MODELS[modelId];
+    const model = getModelDetails(modelId);
     if (!model) return;
     set((state) => {
       const newPrice = calculateTotal(model.basePrice, state.selections);
@@ -95,7 +98,7 @@ export const useConfigurator = create<ConfigState>((set, get) => ({
   toggleSelection: (featureId, optionId) => {
     set((state) => {
       const newSelections = { ...state.selections };
-      const feature = FEATURES[featureId];
+      const feature = getFeatureDetails(featureId);
       if (!feature) return state;
 
       if (newSelections[featureId] === optionId) {
@@ -103,7 +106,7 @@ export const useConfigurator = create<ConfigState>((set, get) => ({
       } else {
         newSelections[featureId] = optionId;
         // Conflict logic
-        const optionDef = OPTIONS[optionId];
+        const optionDef = getOptionDetails(optionId);
         if (optionDef?.incompatibleWith) {
           optionDef.incompatibleWith.forEach((inc) => {
             const conflict = Object.keys(newSelections).find(
@@ -114,7 +117,7 @@ export const useConfigurator = create<ConfigState>((set, get) => ({
         }
       }
 
-      const model = MODELS[state.currentModelId];
+      const model = getModelDetails(state.currentModelId);
       const basePrice = model ? model.basePrice : 0;
       const newPrice = calculateTotal(basePrice, newSelections);
 
@@ -126,10 +129,13 @@ export const useConfigurator = create<ConfigState>((set, get) => ({
   // Update navigation to sync view with step
   nextStep: () =>
     set((state) => {
-      const nextIndex = Math.min(state.currentStepIndex + 1, STEPS.length - 1);
+      const nextIndex = Math.min(
+        state.currentStepIndex + 1,
+        getAllSteps().length - 1,
+      );
       return {
         currentStepIndex: nextIndex,
-        currentView: STEPS[nextIndex].cameraView, // Auto-switch view
+        currentView: getAllSteps()[nextIndex].cameraView, // Auto-switch view
       };
     }),
 
@@ -138,14 +144,14 @@ export const useConfigurator = create<ConfigState>((set, get) => ({
       const prevIndex = Math.max(state.currentStepIndex - 1, 0);
       return {
         currentStepIndex: prevIndex,
-        currentView: STEPS[prevIndex].cameraView, // Auto-switch view
+        currentView: getAllSteps()[prevIndex].cameraView, // Auto-switch view
       };
     }),
 
   setStep: (idx) =>
     set({
       currentStepIndex: idx,
-      currentView: STEPS[idx].cameraView, // Auto-switch view
+      currentView: getAllSteps()[idx].cameraView, // Auto-switch view
     }),
 
   setCurrency: (code) => set({ currency: code }),
@@ -159,7 +165,7 @@ export const useConfigurator = create<ConfigState>((set, get) => ({
 
     // 2. Option Rules
     Object.values(state.selections).forEach((optionId) => {
-      const option = OPTIONS[optionId];
+      const option = getOptionDetails(optionId);
       if (option?.rule) rules.push(option.rule);
     });
     set({ activeRules: rules });
@@ -170,7 +176,7 @@ export const useConfigurator = create<ConfigState>((set, get) => ({
 function calculateTotal(basePrice: number, selections: Record<string, string>) {
   let total = basePrice;
   Object.values(selections).forEach((id) => {
-    const opt = OPTIONS[id];
+    const opt = getOptionDetails(id);
     if (opt) total += opt.price;
   });
   return total;

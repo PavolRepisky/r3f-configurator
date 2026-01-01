@@ -8,10 +8,9 @@ import { QuoteSummary } from "@/components/quote-summary";
 import { SidebarFooter } from "@/components/sidebar-footer";
 import { SidebarHeader } from "@/components/sidebar-header";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { STEPS } from "@/data/steps";
 import { useTranslation } from "@/hooks/useTranslation";
 import { generateQuotePDF } from "@/lib/pdf-generator";
-import { getAllModels, getModelDetails } from "@/lib/repository";
+import { getAllModels, getAllSteps, getModelDetails } from "@/lib/repository";
 import { useConfigurator } from "@/store/useConfigurator";
 
 export default function Sidebar() {
@@ -34,9 +33,9 @@ export default function Sidebar() {
 
   const allModels = getAllModels();
   const currentModel = getModelDetails(currentModelId);
-  const currentStep = STEPS[currentStepIndex];
+  const currentStep = getAllSteps()[currentStepIndex];
   const isFirstStep = currentStepIndex === 0;
-  const isLastStep = currentStepIndex === STEPS.length - 1;
+  const isLastStep = currentStepIndex === getAllSteps().length - 1;
 
   // --- VAT CALCULATIONS ---
   const vatRate = 0.23;

@@ -1,9 +1,11 @@
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
-import { FEATURES } from "@/data/features";
-import { OPTIONS } from "@/data/options";
 import { formatPrice } from "@/lib/price";
-import { getModelDetails } from "@/lib/repository";
+import {
+  getFeatureDetails,
+  getModelDetails,
+  getOptionDetails,
+} from "@/lib/repository";
 import type { CurrencyCode } from "@/types/configurator";
 
 interface GeneratePDFProps {
@@ -39,7 +41,7 @@ export function generateQuotePDF({
   doc.text(`Date: ${new Date().toLocaleDateString()}`, 14, 28);
   doc.text(`Ref: TB-${Math.floor(Math.random() * 10000)}`, 14, 33);
 
-  let finalY : number;
+  let finalY: number;
 
   // --- 2. 3D SCREENSHOT ---
   try {
@@ -73,8 +75,8 @@ export function generateQuotePDF({
 
   // Rows: Selected Options
   Object.entries(selections).forEach(([featureId, optionId]) => {
-    const feature = FEATURES[featureId];
-    const option = OPTIONS[optionId];
+    const feature = getFeatureDetails(featureId);
+    const option = getOptionDetails(optionId);
 
     if (feature && option) {
       tableData.push([

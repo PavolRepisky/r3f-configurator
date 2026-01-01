@@ -83,8 +83,10 @@ export const ModelSchema = z.array(
   }),
 );
 
+// Updated CameraSchema with id field
 export const CameraSchema = z.array(
   z.object({
+    id: z.string(),
     position: Vector3Tuple,
     target: Vector3Tuple,
   }),

@@ -8,9 +8,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { CURRENCIES } from "@/data/currency";
 import { cn } from "@/lib/utils";
 import { useConfigurator } from "@/store/useConfigurator";
+import { getAllCurrencies } from "@/lib/repository";
 
 export function CurrencySwitcher() {
   const { currency, setCurrency } = useConfigurator();
@@ -37,7 +37,7 @@ export function CurrencySwitcher() {
         align="end"
         className="bg-white border-gray-200 text-gray-900 backdrop-blur-xl rounded-lg min-w-[100px] p-1 shadow-lg"
       >
-        {Object.values(CURRENCIES).map((curr) => (
+        {getAllCurrencies().map((curr) => (
           <DropdownMenuItem
             key={curr.code}
             onClick={() => setCurrency(curr.code)}

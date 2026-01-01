@@ -1,7 +1,7 @@
 "use client";
 
-import { STEPS } from "@/data/steps";
 import { useTranslation } from "@/hooks/useTranslation";
+import { getAllSteps } from "@/lib/repository";
 import { cn } from "@/lib/utils";
 import { useConfigurator } from "@/store/useConfigurator";
 
@@ -11,7 +11,7 @@ export function ProgressBar() {
 
   return (
     <div className="flex gap-2 mb-4 h-4 items-center select-none">
-      {STEPS.map((step, idx) => {
+      {getAllSteps().map((step, idx) => {
         const isActive = idx === currentStepIndex;
         const isCompleted = idx < currentStepIndex;
 
@@ -27,11 +27,10 @@ export function ProgressBar() {
                 ? "bg-orange-500"
                 : isCompleted
                   ? "bg-gray-900"
-                  : "bg-gray-300"
+                  : "bg-gray-300",
             )}
             title={t(step.label)}
           >
-
             {/* Extends click target 12px up and down without changing visuals  */}
             <span className="absolute -top-3 -bottom-3 left-0 right-0 bg-transparent z-20 cursor-pointer" />
 

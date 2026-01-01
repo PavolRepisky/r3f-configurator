@@ -1,9 +1,8 @@
 "use client";
 
 import { AlertCircle, Hash, Receipt } from "lucide-react";
-import { FEATURES } from "@/data/features";
-import { OPTIONS } from "@/data/options";
 import { formatPrice } from "@/lib/price";
+import { getFeatureDetails, getOptionDetails } from "@/lib/repository";
 import { cn } from "@/lib/utils";
 import type { CurrencyCode } from "@/types/configurator";
 
@@ -83,8 +82,8 @@ export function QuoteSummary({
             )}
 
             {Object.entries(selections).map(([featureId, optionId]) => {
-              const feature = FEATURES[featureId];
-              const option = OPTIONS[optionId];
+              const feature = getFeatureDetails(featureId);
+              const option = getOptionDetails(optionId);
               if (!feature || !option) return null;
 
               return (

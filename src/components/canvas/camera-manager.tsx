@@ -3,8 +3,8 @@
 import { CameraControls } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useEffect, useRef } from "react";
-import { MathUtils, Vector3 } from "three";
-import { CAMERAS } from "@/data/cameras";
+import { Vector3 } from "three";
+import { getCameraDetails } from "@/lib/repository";
 import { useConfigurator } from "@/store/useConfigurator";
 
 const ENABLE_DEBUG = process.env.NODE_ENV === "development";
@@ -50,7 +50,9 @@ export function CameraManager() {
     if (!controlsRef.current) return;
 
     // Look up config directly by View ID
-    const viewConfig = CAMERAS[currentView] || CAMERAS.exterior;
+    const viewConfig =
+      getCameraDetails(currentView) || getCameraDetails("exterior");
+    if (!viewConfig) return;
     const controls = controlsRef.current;
 
     // Normalize rotation to prevent spinning (Shortest path logic)
