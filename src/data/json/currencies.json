@@ -1,20 +1,5 @@
 [
-  {
-    "code": "EUR",
-    "label": "Euro",
-    "symbol": "€",
-    "rate": 1
-  },
-  {
-    "code": "USD",
-    "label": "US Dollar",
-    "symbol": "$",
-    "rate": 1.08
-  },
-  {
-    "code": "CZK",
-    "label": "Česká koruna",
-    "symbol": "Kč",
-    "rate": 25.3
-  }
+  { "code": "EUR", "symbol": "€", "rate": 1 },
+  { "code": "USD", "symbol": "$", "rate": 1.08 },
+  { "code": "CZK", "symbol": "Kč", "rate": 25.3 }
 ]

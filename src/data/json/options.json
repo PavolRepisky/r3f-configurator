@@ -1,95 +1,89 @@
 [
   {
-    "id": "opt_ext_white",
-    "label": "option.exterior.white",
+    "id": "option-exterior-surface-white",
+    "label": "option.exterior.surface.white",
     "price": 0,
-    "value": "#f3f4f6",
-    "rule": { "setMaterialColor": { "Mat_Exterior_Cladding": "#ffffff" } }
-  },
-  {
-    "id": "opt_ext_wood",
-    "label": "option.exterior.wood",
-    "price": 1500,
-    "value": "#a16207",
-    "rule": { "setMaterialColor": { "Mat_Exterior_Cladding": "#854d0e" } }
-  },
-  {
-    "id": "opt_ext_metal",
-    "label": "option.exterior.metal",
-    "price": 850,
-    "value": "#374151",
-    "rule": { "setMaterialColor": { "Mat_Exterior_Cladding": "#1f2937" } }
-  },
-  {
-    "id": "opt_solar",
-    "label": "option.addon.solar",
-    "price": 4200,
-    "rule": { "show": ["Roof_Solar_Panels"] }
-  },
-  {
-    "id": "opt_ac",
-    "label": "option.addon.ac",
-    "price": 1200,
-    "rule": { "show": ["Ext_AC_Unit"] }
-  },
-  {
-    "id": "opt_security",
-    "label": "option.addon.security",
-    "price": 650,
-    "rule": { "show": ["Ext_Cameras", "Door_SmartLock"] }
-  },
-  {
-    "id": "opt_layout_open",
-    "label": "option.layout.open",
-    "price": 0,
-    "rule": { "hide": ["Wall_Bedroom_Partition", "Door_Bedroom"] }
-  },
-  {
-    "id": "opt_layout_bedroom",
-    "label": "option.layout.bedroom",
-    "price": 800,
-    "rule": { "show": ["Wall_Bedroom_Partition", "Door_Bedroom"] }
-  },
-  {
-    "id": "opt_kitchen_none",
-    "label": "option.kitchen.none",
-    "price": 0,
-    "rule": { "hide": ["Kitchen_Module_Base", "Kitchen_Island"] }
-  },
-  {
-    "id": "opt_kitchen_standard",
-    "label": "option.kitchen.standard",
-    "price": 2800,
     "rule": {
-      "show": ["Kitchen_Module_Base"],
-      "hide": ["Kitchen_Island"]
+      "setMaterialColor": { "mat-exterior": "#f3f4f6" }
     }
   },
   {
-    "id": "opt_kitchen_island",
-    "label": "option.kitchen.island",
-    "price": 4500,
-    "rule": { "show": ["Kitchen_Module_Base", "Kitchen_Island"] }
-  },
-  {
-    "id": "opt_floor_light",
-    "label": "option.floor.light",
-    "price": 0,
-    "value": "#eaddcf",
-    "rule": { "setMaterialColor": { "Mat_Floor_Interior": "#eaddcf" } }
-  },
-  {
-    "id": "opt_floor_dark",
-    "label": "option.floor.dark",
+    "id": "option-exterior-surface-dark",
+    "label": "option.exterior.surface.dark",
     "price": 600,
-    "value": "#5d4037",
-    "rule": { "setMaterialColor": { "Mat_Floor_Interior": "#5d4037" } }
+    "rule": {
+      "setMaterialColor": { "mat-exterior": "#374151" }
+    }
   },
   {
-    "id": "opt_floor_stone",
-    "label": "option.floor.stone",
+    "id": "option-exterior-surface-wood",
+    "label": "option.exterior.surface.wood",
+    "price": 1500,
+    "rule": {
+      "setMaterialColor": { "mat-exterior": "#854d0e" }
+    }
+  },
+
+  {
+    "id": "option-exterior-addon-solar",
+    "label": "option.exterior.addon.solar",
+    "price": 4200,
+    "rule": { "show": ["node-solar"] }
+  },
+  {
+    "id": "option-exterior-addon-ac",
+    "label": "option.exterior.addon.ac",
+    "price": 1200,
+    "rule": { "show": ["node-ac"] }
+  },
+  {
+    "id": "option-exterior-addon-terrace",
+    "label": "option.exterior.addon.terrace",
+    "price": 1800,
+    "rule": { "show": ["node-terrace"] }
+  },
+
+  {
+    "id": "option-interior-floor-light",
+    "label": "option.interior.floor.light",
+    "price": 0,
+    "rule": {
+      "setMaterialColor": { "mat-floor": "#eaddcf" }
+    }
+  },
+  {
+    "id": "option-interior-floor-dark",
+    "label": "option.interior.floor.dark",
+    "price": 600,
+    "rule": {
+      "setMaterialColor": { "mat-floor": "#5d4037" }
+    }
+  },
+  {
+    "id": "option-interior-floor-concrete",
+    "label": "option.interior.floor.concrete",
     "price": 1100,
-    "value": "#78909c",
-    "rule": { "setMaterialColor": { "Mat_Floor_Interior": "#78909c" } }
+    "rule": {
+      "setMaterialColor": { "mat-floor": "#9ca3af" }
+    }
+  },
+
+  {
+    "id": "option-interior-equipment-none",
+    "label": "option.interior.equipment.none",
+    "price": 0,
+    "rule": { "hide": ["node-equipment-basic", "node-equipment-full"] }
+  },
+  {
+    "id": "option-interior-equipment-basic",
+    "label": "option.interior.equipment.basic",
+    "price": 2500,
+    "rule": { "show": ["node-equipment-basic"] }
+  },
+  {
+    "id": "option-interior-equipment-full",
+    "label": "option.interior.equipment.full",
+    "price": 4800,
+    "rule": { "show": ["node-equipment-basic", "node-equipment-full"] }
   }
 ]

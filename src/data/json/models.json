@@ -7,11 +7,11 @@
     "basePrice": 14000,
     "dimensions": [4, 2.5, 3],
     "featureIds": [
-      "feat_exterior_finish",
-      "feat_exterior_tech",
-      "feat_interior_layout",
-      "feat_interior_flooring",
-      "feat_interior_kitchen"
+      "feat-exterior-finish",
+      "feat-exterior-tech",
+      "feat-interior-layout",
+      "feat-interior-flooring",
+      "feat-interior-kitchen"
     ],
     "asset": {
       "file": "/models/placeholder.glb",
@@ -43,11 +43,11 @@
     "basePrice": 24900,
     "dimensions": [7, 3, 3],
     "featureIds": [
-      "feat_exterior_finish",
-      "feat_exterior_tech",
-      "feat_interior_layout",
-      "feat_interior_flooring",
-      "feat_interior_kitchen"
+      "feat-exterior-finish",
+      "feat-exterior-tech",
+      "feat-interior-layout",
+      "feat-interior-flooring",
+      "feat-interior-kitchen"
     ],
     "asset": {
       "file": "/models/placeholder.glb",
@@ -75,11 +75,11 @@
     "basePrice": 24900,
     "dimensions": [7, 3, 3],
     "featureIds": [
-      "feat_exterior_finish",
-      "feat_exterior_tech",
-      "feat_interior_layout",
-      "feat_interior_flooring",
-      "feat_interior_kitchen"
+      "feat-exterior-finish",
+      "feat-exterior-tech",
+      "feat-interior-layout",
+      "feat-interior-flooring",
+      "feat-interior-kitchen"
     ],
     "asset": {
       "file": "/models/placeholder.glb",
@@ -107,11 +107,11 @@
     "basePrice": 24900,
     "dimensions": [7, 3, 3],
     "featureIds": [
-      "feat_exterior_finish",
-      "feat_exterior_tech",
-      "feat_interior_layout",
-      "feat_interior_flooring",
-      "feat_interior_kitchen"
+      "feat-exterior-finish",
+      "feat-exterior-tech",
+      "feat-interior-layout",
+      "feat-interior-flooring",
+      "feat-interior-kitchen"
     ],
     "asset": {
       "file": "/models/placeholder.glb",
@@ -139,11 +139,11 @@
     "basePrice": 24900,
     "dimensions": [7, 3, 3],
     "featureIds": [
-      "feat_exterior_finish",
-      "feat_exterior_tech",
-      "feat_interior_layout",
-      "feat_interior_flooring",
-      "feat_interior_kitchen"
+      "feat-exterior-finish",
+      "feat-exterior-tech",
+      "feat-interior-layout",
+      "feat-interior-flooring",
+      "feat-interior-kitchen"
     ],
     "asset": {
       "file": "/models/placeholder.glb",
@@ -171,11 +171,11 @@
     "basePrice": 24900,
     "dimensions": [7, 3, 3],
     "featureIds": [
-      "feat_exterior_finish",
-      "feat_exterior_tech",
-      "feat_interior_layout",
-      "feat_interior_flooring",
-      "feat_interior_kitchen"
+      "feat-exterior-finish",
+      "feat-exterior-tech",
+      "feat-interior-layout",
+      "feat-interior-flooring",
+      "feat-interior-kitchen"
     ],
     "asset": {
       "file": "/models/placeholder.glb",

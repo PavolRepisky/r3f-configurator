@@ -8,7 +8,6 @@ const Vector3Tuple = z.tuple([z.number(), z.number(), z.number()]);
 export const CurrencySchema = z.array(
   z.object({
     code: z.enum(["EUR", "USD", "CZK"]),
-    label: z.string(),
     symbol: z.string(),
     rate: z.number(),
   }),

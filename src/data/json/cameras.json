@@ -1,21 +1,16 @@
 [
   {
-    "id": "exterior_far",
-    "position": [10, 6, 14],
-    "target": [0, 1, 0]
-  },
-  {
-    "id": "exterior",
+    "id": "camera-exterior",
     "position": [6, 2, 9],
     "target": [0, 1.5, 0]
   },
   {
-    "id": "interior",
-    "position": [0.0, 14.35, 0.0],
-    "target": [0.0, 1.5, 0.0]
+    "id": "camera-interior",
+    "position": [0, 8, 0],
+    "target": [0, 1.5, 0]
   },
   {
-    "id": "orbit",
+    "id": "camera-orbit",
     "position": [8, 8, 8],
     "target": [0, 0, 0]
   }

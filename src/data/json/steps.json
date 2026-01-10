@@ -1,24 +1,20 @@
 [
   {
-    "id": "step_exterior",
+    "id": "step-exterior",
     "label": "step.exterior",
-    "featureIds": ["feat_exterior_finish", "feat_exterior_tech"],
-    "cameraView": "exterior"
+    "featureIds": ["feature-exterior-surface", "feature-exterior-addons"],
+    "cameraView": "camera-exterior"
   },
   {
-    "id": "step_interior",
+    "id": "step-interior",
     "label": "step.interior",
-    "featureIds": [
-      "feat_interior_layout",
-      "feat_interior_flooring",
-      "feat_interior_kitchen"
-    ],
-    "cameraView": "interior"
+    "featureIds": ["feature-interior-floor", "feature-interior-equipment"],
+    "cameraView": "camera-interior"
   },
   {
-    "id": "step_summary",
+    "id": "step-summary",
     "label": "step.summary",
     "featureIds": [],
-    "cameraView": "orbit"
+    "cameraView": "camera-orbit"
   }
 ]
